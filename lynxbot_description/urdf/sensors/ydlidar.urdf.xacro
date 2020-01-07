@@ -23,12 +23,12 @@
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://lynxbot_description/meshes/ydlidar.dae"/>
-      </geometry>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-    </collision>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.0 0.0 0.0"/>
+        </geometry>
+      </collision>
   </link>
 
   <joint type="fixed" name="ydlidar_joint">

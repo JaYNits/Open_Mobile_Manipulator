@@ -26,12 +26,12 @@ void JointState_Callback(const sensor_msgs::JointState::ConstPtr& joint_state){
 
 
 
-    float curr_0 = joint_state->position[0];
-    float curr_1 = joint_state->position[1];
-    float curr_2 = joint_state->position[2];
-    float curr_3 = joint_state->position[3];
-    float curr_4 = joint_state->position[4];
-    float curr_5 = joint_state->position[5];
+    float curr_0 = joint_state->position[4];
+    float curr_1 = joint_state->position[5];
+    float curr_2 = joint_state->position[6];
+    float curr_3 = joint_state->position[7];
+    float curr_4 = joint_state->position[8];
+    float curr_5 = joint_state->position[9];
     bool cond_0 = fabs(prev_0 - curr_0) < 0.001;
     bool cond_1 = fabs(prev_1 - curr_1) < 0.001;
     bool cond_2 = fabs(prev_2 - curr_2) < 0.001;

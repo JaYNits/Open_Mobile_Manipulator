@@ -19,6 +19,9 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   control_msgs
   sensor_msgs
+  #rtabmap_ros
+  #amcl
+  #map_server
 
 )
 
@@ -142,27 +145,33 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_Pub_to_Arduino src/pub_to_arduino.cpp)
 
+add_executable(${PROJECT_NAME}_Pub_to_Arduino_Class src/pub_to_arduino_class.cpp)
+add_executable(${PROJECT_NAME}_Cmd_Vel_to_Arduino src/cmd_vel_mux.cpp)
 #add_executable(Arm_Driver src/pub_to_arduino.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-set_target_properties(${PROJECT_NAME}_Pub_to_Arduino PROPERTIES OUTPUT_NAME Pub_to_Arduino PREFIX "")
 
+set_target_properties(${PROJECT_NAME}_Pub_to_Arduino_Class PROPERTIES OUTPUT_NAME Pub_to_Arduino_Class PREFIX "")
+set_target_properties(${PROJECT_NAME}_Cmd_Vel_to_Arduino PROPERTIES OUTPUT_NAME Cmd_Vel_to_Arduino PREFIX "")
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(${PROJECT_NAME}_Pub_to_Arduino ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_dependencies(${PROJECT_NAME}_Pub_to_Arduino_Class ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_Cmd_Vel_to_Arduino ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(Arm_Driver ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_Pub_to_Arduino
+
+target_link_libraries(${PROJECT_NAME}_Pub_to_Arduino_Class
    ${catkin_LIBRARIES}
  )
-
+target_link_libraries(${PROJECT_NAME}_Cmd_Vel_to_Arduino
+   ${catkin_LIBRARIES}
+ )
 #target_link_libraries(Arm_driver
 #   ${catkin_LIBRARIES}
 #)

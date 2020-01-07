@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+
+  <node name="Cmd_Vel_to_Arduino" pkg="lynxbot_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 
+  output="screen"/>
+
+
+
+
+  
+</launch>

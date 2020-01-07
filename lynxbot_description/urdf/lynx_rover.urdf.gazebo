@@ -107,8 +107,8 @@
   <gazebo reference="laser_frame">
     <sensor type="ray" name="head_ydlidar_sensor">
       <pose>0 0 0 0 0 0</pose>
-      <visualize>false</visualize>
-      <update_rate>40</update_rate>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
       <ray>
         <scan>
           <horizontal>
@@ -119,8 +119,8 @@
           </horizontal>
         </scan>
         <range>
-          <min>0.35</min>
-          <max>300.0</max>
+          <min>0.3</min>
+          <max>50.0</max>
           <resolution>0.01</resolution>
         </range>
         <noise>
@@ -133,8 +133,8 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>scan</topicName>
+      <plugin name="gazebo_ros_head_ydlidar_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/scan</topicName>
         <frameName>laser_frame</frameName>
       </plugin>
     </sensor>

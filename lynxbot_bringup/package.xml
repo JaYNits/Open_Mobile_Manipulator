@@ -61,6 +61,9 @@
   <build_depend>tf</build_depend>
   <build_depend>control_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
+  <!--build_depend>map_server</build_depend-->
+  <!--build_depend>amcl</build_depend-->
+  <!--build_depend>rtabmap_ros</build_depend-->
 
   <build_export_depend>actionlib</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
@@ -73,7 +76,9 @@
   <build_export_depend>tf</build_export_depend>
   <build_export_depend>control_msgs</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
-
+  <!--build_export_depend>map_server</build_export_depend-->
+  <!--build_export_depend>amcl</build_export_depend-->
+  <!--build_export_depend>rtabmap_ros</build_export_depend-->
 
   <exec_depend>actionlib</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
@@ -86,6 +91,9 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>control_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
+  <!--exec_depend>map_server</exec_depend-->
+  <!--exec_depend>amcl</exec_depend-->
+  <!--exec_depend>rtabmap_ros</exec_depend-->
 
   <exec_depend>joint_state_controller</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <param name="use_sim_time" value="true"/>
   <!-- Scan topic -->
   <arg name="scan_topic" default="scan" />
   <!-- Map server -->
@@ -13,7 +14,7 @@
   <!-- Localization-->
   <node pkg="amcl" type="amcl" name="amcl">
     <rosparam file="$(find lynxbot_bringup)/config/navigation/my_amcl_params.yaml" command="load" />
-    <remap from="scan" to="$(arg scan_topic)"/>
+    <remap from="scan" to="scan"/>
   </node>
 
 
