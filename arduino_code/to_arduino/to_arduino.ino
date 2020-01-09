@@ -58,8 +58,6 @@ const uint8_t RB_FORW = 31;
 const uint8_t LB_BACK = 28;
 const uint8_t LB_FORW = 29;
 const uint8_t LB_PWM = 10;
-
-
 bool wtf;
 
 
