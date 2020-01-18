@@ -14,7 +14,7 @@
   <!-- Localization-->
   <node pkg="amcl" type="amcl" name="amcl">
     <rosparam file="$(find lynxbot_bringup)/config/navigation/my_amcl_params.yaml" command="load" />
-    <remap from="scan" to="scan"/>
+    <remap from="scan" to="/scan"/>
   </node>
 
 

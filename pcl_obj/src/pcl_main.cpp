@@ -19,6 +19,8 @@
 #include <vector>
 #include <ctime>
 #include <tf/transform_broadcaster.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/passthrough.h>
 
 typedef pcl::PointXYZ PointT;
 
@@ -36,117 +38,119 @@ public:
 
     void cloudCB(const sensor_msgs::PointCloud2 &input)
     {
-        pcl::PointCloud<PointT> cloud;
-        pcl::PointCloud<pcl::Normal> cloud_normals;
-        pcl::PCDWriter writer;
-  //pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
-        pcl::PointCloud<PointT> cloud_segmented;
-        sensor_msgs::PointCloud2 output;
-
-        pcl::fromROSMsg(input, cloud);
-        // outlier removal
-        pcl::StatisticalOutlierRemoval<PointT> statFilter;
-        statFilter.setInputCloud(cloud.makeShared());
-        statFilter.setMeanK(10);
-        statFilter.setStddevMulThresh(0.2);
-        statFilter.filter(cloud);
-        // downsampling 
-        pcl::VoxelGrid<PointT> voxelSampler;
-        voxelSampler.setInputCloud(cloud.makeShared());
-        voxelSampler.setLeafSize(0.01f, 0.01f, 0.01f);
-        voxelSampler.filter(cloud);
-        // plane segmentation 
-        
-        pcl::ModelCoefficients coefficients;
-        pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
-        //create segmentation object 
-        pcl::SACSegmentation<PointT> segmentation;
-        segmentation.setModelType(pcl::SACMODEL_PLANE);
-        segmentation.setMethodType(pcl::SAC_RANSAC);
-        segmentation.setMaxIterations(1000);
-        segmentation.setDistanceThreshold(0.01);
-        segmentation.setInputCloud(cloud.makeShared());
-        segmentation.segment(*inliers, coefficients);
-
-        // Create the filtering object
-        pcl::ExtractIndices<PointT> extract;
-        extract.setInputCloud(cloud.makeShared());
-        extract.setIndices(inliers);
-        extract.setNegative(true);
-        extract.filter(cloud);
 
 
+	// objects
+  pcl::VoxelGrid<pcl::PointXYZ> voxelSampler;
+	pcl::PassThrough<PointT> pass;
+	pcl::NormalEstimation<PointT, pcl::Normal> ne;
+	pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg;
+	pcl::PCDWriter writer;
+	pcl::ExtractIndices<PointT> extract;
+	pcl::ExtractIndices<pcl::Normal> extract_normals;
+	pcl::search::KdTree<PointT>::Ptr tree (new pcl::search::KdTree<PointT> ());
+	sensor_msgs::PointCloud2 output;
+	// datasets
+    pcl::PointCloud<PointT>::Ptr cloud (new pcl::PointCloud<PointT>);
+  	pcl::PointCloud<PointT>::Ptr cloud_filtered (new pcl::PointCloud<PointT>);
+  	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
+  	pcl::PointCloud<PointT>::Ptr cloud_filtered2 (new pcl::PointCloud<PointT>);
+  	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals2 (new pcl::PointCloud<pcl::Normal>);
+  	pcl::ModelCoefficients::Ptr coefficients_plane (new pcl::ModelCoefficients), coefficients_cylinder (new pcl::ModelCoefficients);
+  	pcl::PointIndices::Ptr inliers_plane (new pcl::PointIndices), inliers_cylinder (new pcl::PointIndices);
 
-        // Creating the KdTree object for the search method of the extraction
-        pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
-        tree->setInputCloud (cloud.makeShared());
+	  //read data to pcl
+    pcl::fromROSMsg(input, *cloud);
+        //std::cerr << "PointCloud has: " << cloud->points.size () << " data points." << std::endl;
 
-        std::vector<pcl::PointIndices> cluster_indices;
-        pcl::EuclideanClusterExtraction<PointT> ec;
-        ec.setClusterTolerance (0.02); // 2cm
-        ec.setMinClusterSize (100);
-        ec.setMaxClusterSize (25000);
-        ec.setSearchMethod (tree);
-        ec.setInputCloud (cloud.makeShared());
-        ec.extract (cluster_indices);
-        int j = 0;
-        for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
-        {
-            pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster (new pcl::PointCloud<pcl::PointXYZ>);
-            for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit){
-                cloud_cluster->points.push_back (cloud.points[*pit]); //*
+        // Build a passthrough filter to remove spurious NaNs
+  	//pass.setInputCloud (cloud);
+  	//pass.setFilterFieldName ("z");
+  	//pass.setFilterLimits (0, 1.5);
+  	//pass.filter (*cloud_filtered);
+  	//std::cerr << "PointCloud after filtering has: " << cloud_filtered->points.size () << " data points." << std::endl;
 
-            }
-            pcl::PointXYZ avg;
-            for(size_t i = 0; i < cloud_cluster->points.size(); i++){
-                if(!isnan(cloud_cluster->points[i].x) && !isnan(cloud_cluster->points[i].y) && !isnan(cloud_cluster->points[i].z)) {
-                    avg.x += cloud_cluster->points[i].x;
-                    avg.y += cloud_cluster->points[i].y;
-                    avg.z += cloud_cluster->points[i].z;
-                }
-            }
-            avg.x /= cloud_cluster->points.size();
-            avg.y /= cloud_cluster->points.size();
-            avg.z /= cloud_cluster->points.size();
-            cloud_cluster->width = cloud_cluster->points.size ();
-            cloud_cluster->height = 1;
-            cloud_cluster->is_dense = true;
-            if(cloud_cluster->width > 200 && cloud_cluster->width < 220)
-            {
-                static tf::TransformBroadcaster br;
-                tf::Transform transform;
-                transform.setOrigin( tf::Vector3(avg.x,avg.y,avg.z) );
-                tf::Quaternion q;
-                q.setRPY(0, 0, 0);
-                transform.setRotation(q);
-                br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "camera_link", "object"));
-                break;
-            }
-            std::cout << "PointCloud representing the Cluster: " << cloud_cluster->points.size () << " data points." << std::endl;
-            std::stringstream ss;
-            ss << "cloud_cluster_" << j << ".pcd";
-            writer.write<pcl::PointXYZ> (ss.str (), *cloud_cluster, false); //*
-            j++;
-        }
-        // Create cylinder object
-        /*segmentation.setOptimizeCoefficients (true);
-        segmentation.setModelType(pcl::SACMODEL_CYLINDER);
-        segmentation.setMethodType(pcl::SAC_RANSAC);
-        segmentation.setNormalDistanceWeight (0.1);
-        segmentation.setMaxIterations (10000);
-        segmentation.setDistanceThreshold (0.05);
-        segmentation.setRadiusLimits (0, 0.1);
-        segmentation.setInputCloud(cloud.makeShared());
-        segmentation.setInputNormals(cloud_normals2.makeShared());
-        segmentation.segment(*inliers, coefficients);
+  //Downsampling
+  voxelSampler.setInputCloud(cloud);
+  voxelSampler.setLeafSize(0.01f, 0.01f, 0.01f);
+  voxelSampler.filter(*cloud);
+
+ 	// Estimate point normals
+  	ne.setSearchMethod (tree);
+  	ne.setInputCloud (cloud);//_filtered);
+  	ne.setKSearch (80);//50
+  	ne.compute (*cloud_normals);
+
+  	// Create the segmentation object for the planar model and set all the parameters
+  	seg.setOptimizeCoefficients (true);
+  	seg.setModelType (pcl::SACMODEL_NORMAL_PLANE);
+  	seg.setNormalDistanceWeight (0.1);
+  	seg.setMethodType (pcl::SAC_RANSAC);
+  	seg.setMaxIterations (100);
+  	seg.setDistanceThreshold (0.03);
+  	seg.setInputCloud (cloud);//_filtered);
+  	seg.setInputNormals (cloud_normals);
+  	// Obtain the plane inliers and coefficients
+  	seg.segment (*inliers_plane, *coefficients_plane);
+  	//std::cerr << "Plane coefficients: " << *coefficients_plane << std::endl;
+
+  	// Extract the planar inliers from the input cloud
+  	extract.setInputCloud (cloud);//_filtered);
+  	extract.setIndices (inliers_plane);
+  	extract.setNegative (false);
+
+  	// Write the planar inliers to disk
+  	pcl::PointCloud<PointT>::Ptr cloud_plane (new pcl::PointCloud<PointT> ());
+  	extract.filter (*cloud_plane);
+  	//std::cerr << "PointCloud representing the planar component: " << cloud_plane->points.size () << " data points." << std::endl;
+  	//writer.write ("table_scene_mug_stereo_textured_plane.pcd", *cloud_plane, false);
+
+  	// Remove the planar inliers, extract the rest
+  	extract.setNegative (true);
+  	extract.filter (*cloud_filtered2);
+  	extract_normals.setNegative (true);
+  	extract_normals.setInputCloud (cloud_normals);
+  	extract_normals.setIndices (inliers_plane);
+  	extract_normals.filter (*cloud_normals2);
+
+  	// Create the segmentation object for cylinder segmentation and set all the parameters
+  	seg.setOptimizeCoefficients (true);
+    seg.setModelType(pcl::SACMODEL_NORMAL_SPHERE);
+  	//seg.setModelType (pcl::SACMODEL_CYLINDER);
+  	seg.setMethodType (pcl::SAC_RANSAC);
+  	seg.setNormalDistanceWeight (0.1);
+  	seg.setMaxIterations (10000);
+  	seg.setDistanceThreshold (0.05);
+  	seg.setRadiusLimits (0, 0.07);
+  	seg.setInputCloud (cloud_filtered2);
+  	seg.setInputNormals (cloud_normals2);
+
+  	// Obtain the cylinder inliers and coefficients
+  	seg.segment (*inliers_cylinder, *coefficients_cylinder);
+  	//std::cerr << "Cylinder coefficients: " << *coefficients_cylinder << std::endl;
+
+  	// Write the cylinder inliers to disk
+  	extract.setInputCloud (cloud_filtered2);
+  	extract.setIndices (inliers_cylinder);
+  	extract.setNegative (false);
+  	pcl::PointCloud<PointT>::Ptr cloud_cylinder (new pcl::PointCloud<PointT> ());
+  	extract.filter (*cloud_cylinder);
+  	if (cloud_cylinder->points.empty ())
+    		std::cerr << "Can't find the cylindrical component." << std::endl;
+  	else
+  	{
+	  	std::cerr << "PointCloud representing the cylindrical component: " << cloud_cylinder->points.size () << " data points." << std::endl;
+	  	//writer.write ("table_scene_mug_stereo_textured_cylinder.pcd", *cloud_cylinder, false);
+  	}
 
 
-        extract.setInputCloud(cloud.makeShared());
-        extract.setIndices(inliers);
-        extract.setNegative(false);
-        extract.filter(cloud_normals);*/
 
-        pcl::toROSMsg(cloud, output);
+
+
+
+
+
+        pcl::toROSMsg(*cloud_cylinder, output);
         pcl_plane_pub.publish(output);
 
     }
@@ -166,4 +170,3 @@ main(int argc, char **argv)
 
     return 0;
 }
-

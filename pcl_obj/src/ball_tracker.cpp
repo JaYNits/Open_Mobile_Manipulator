@@ -79,7 +79,7 @@ void BallTracker::cloudCallback(const pcl::PCLPointCloud2ConstPtr& cloud_in)
     cloud_helpers::PointCloudXYZRGBtoXYZHSV(*cloud_in2, *cloud_filtered);
 
     // pick out red points
-    pcl::PointIndices::Ptr redPoints = cloud_helpers::filterByHue(cloud_filtered, 60, 5);//350 20
+    pcl::PointIndices::Ptr redPoints = cloud_helpers::filterByHue(cloud_filtered, 240, 5);//350 20
     pcl::ExtractIndices<pcl::PointXYZHSV> extract;
     extract.setInputCloud(cloud_filtered);
     extract.setIndices(redPoints);
@@ -90,14 +90,14 @@ void BallTracker::cloudCallback(const pcl::PCLPointCloud2ConstPtr& cloud_in)
     pcl::PassThrough<pcl::PointXYZHSV> pass;
     pass.setInputCloud (cloud_filtered);
     pass.setFilterFieldName ("s");
-    pass.setFilterLimits (0.95, 1.0);//0.8 1,0
+    pass.setFilterLimits (0.8, 1.0);//0.8 1,0
     pass.setFilterLimitsNegative (false);
     pass.filter (*cloud_filtered);
 
     // filter value
     pass.setInputCloud (cloud_filtered);
     pass.setFilterFieldName ("v");
-    pass.setFilterLimits (0.3, 0.95); //0.1 0.95
+    pass.setFilterLimits (0.1, 0.95); //0.1 0.95
     pass.setFilterLimitsNegative (false);
     pass.filter (*cloud_filtered);
 

@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
 <launch>
   <group ns="rtabmap">
-    <node pkg="nodelet" type="nodelet" name="odom_sync" args="standalone rtabmap_ros/data_odom_sync" output="screen">
+    <!--node pkg="nodelet" type="nodelet" name="odom_sync" args="standalone rtabmap_ros/data_odom_sync" output="screen">
       <remap from="rgb/image_in" to="/camera/rgb/image_rect_color"/>
       <remap from="depth/image_in" to="/camera/depth_registered/image_raw"/>
       <remap from="rgb/camera_info_in" to="/camera/rgb/camera_info"/>
       <remap from="odom_in" to="/odom"/>
-    </node>
+    </node-->
       <!-- Use RGBD synchronization -->
     <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
-       <remap from="rgb/image" to="rgb/image_out"/>
-       <remap from="depth/image" to="depth/image_out"/>
-       <remap from="rgb/camera_info" to="rgb/camera_info_out"/><remap from="rgbd_image" to="rgbd_image"/>
+      <remap from="rgb/image" to="/camera1/rgb/image_raw"/>
+      <remap from="depth/image" to="/camera1/depth/image_raw"/>
+      <remap from="rgb/camera_info" to="/camera1/rgb/camera_info"/>
+      <remap from="rgbd_image" to="rgbd_image"/>
     <!-- output --><!--
     Should be true for not synchronized camera topics 
            (e.g., false for kinectv2, zed, realsense, true for xtion, kinect360)-->
@@ -23,7 +24,7 @@
        <param name="subscribe_rgbd" type="bool" value="true"/>
        <param name="subscribe_scan" type="bool" value="true"/>
        <param name="wait_for_trasnform" type="bool" value="true"/>
-       <remap from="odom" to="odom_out"/>
+       <remap from="odom" to="/diff_velocity_controller/odom"/>
        <remap from="scan" to="/scan"/>
        <remap from="rgbd_image" to="rgbd_image"/>
        <param name="queue_size" type="int" value="10"/>
