@@ -4,21 +4,24 @@
 
   <rosparam file="$(find lynxbot_bringup)/config/control/my_robot_control.yaml" command="load"/>
   <rosparam file="$(find lynxbot_bringup)/config/control/diff_control.yaml" command="load"/>
+
+  <node name="controller_spawner_joint_state" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller"/>
+
+  <node name="controller_spawner_arm" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="arm_controller"/>
+
+  <node name="controller_spawner_gripper" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="gripper_controller"/>
+
+  <group if="$(arg sim)"> 
+    <node name="controller_spawner_Diff" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="diff_velocity_controller"/>
+  </group>
+
   <group unless="$(arg sim)">
      <node name="my_arm_hardware_interface" pkg="my_hardware_interface" type="myrobot_hw_main"
           output="screen" launch-prefix=""/>
   </group>
-  <node name="controller_spawner_joint_state" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="joint_state_controller"/>
-  <node name="controller_spawner_arm" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="arm_controller"/>
-  <node name="controller_spawner4" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="gripper_controller"/>
-  <group if="$(arg sim)"> 
-    <node name="controller_spawner_Gripper" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="diff_velocity_controller"/>
-
-  </group>
-
 
 </launch>

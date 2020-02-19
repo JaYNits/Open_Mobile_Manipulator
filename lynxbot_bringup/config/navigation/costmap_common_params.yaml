@@ -25,5 +25,5 @@ obstacles_laser:
 inflation:
     enabled: true
     inflation_radius: 0.3
-    cost_scaling_factor: 3.5
+    cost_scaling_factor: 1.5
 

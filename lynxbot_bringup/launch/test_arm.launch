@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <param name="use_sim_time" value="true"/>
+  <!-- Scan topic -->
+  <arg name="scan_topic" default="scan" />
+
+  <include file="$(find lynxbot_bringup)/launch/sim_bringup.launch"/>
+  <include file="$(find lynxbot_bringup)/launch/arm/moveit.launch"/>
+
+  <include file="$(find lynxbot_bringup)/launch/navigation/amcl.launch"/>
+  <include file="$(find lynxbot_bringup)/launch/navigation/move_base.launch"/>
+
+
+  <node name="set_start" pkg="lynxbot_bringup" type="set_start_pos.py" />
+  
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find lynxbot_bringup)/rviz/rviz_navigation.rviz" />
+
+</launch>

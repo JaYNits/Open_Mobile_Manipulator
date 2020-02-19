@@ -15,7 +15,7 @@ robot = moveit_commander.RobotCommander()
 scene = moveit_commander.PlanningSceneInterface()    
 group = moveit_commander.MoveGroupCommander("arm")
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
-positions = [[0.0, 0.0, 1.57,0.0,0.0,0.0]]
+positions = [[0.0, -1.1, 1.9,0.0,-1.4,0.0]]
 for pos in positions:
 	group_variable_values = group.get_current_joint_values()
 	print group_variable_values

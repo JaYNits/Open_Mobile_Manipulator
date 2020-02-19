@@ -14,38 +14,31 @@ pub = rospy.Publisher('gripper_cmd', Int16, queue_size=10)
 robot = moveit_commander.RobotCommander()
 scene = moveit_commander.PlanningSceneInterface()    
 group = moveit_commander.MoveGroupCommander("arm")
+gripper_group = moveit_commander.MoveGroupCommander("gripper")
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
 positions = [
-			 [0,0,1.57,0,0,0],
-			#[1.3,1.3,1.0,-1.2,-1.2,-1.2],
-			#[0.0,-0.6,1.57,0,0,0],
-			[-1.2, 1.3, 1.05,0.0,0.8,0.0],
+
 			#[-1.3,1.2,1.27,1.2,1.2,1.2],
-			[0,0,1.57,0,0,0]]#,
+			[0,0.5,1.5,0,-0.3,0]]#,
 			#[0.0,0.0,1.57,0.0,0.0,0.0]]
-pub.publish(150)
-counter = 0
+
+
+
 for pos in positions:
-	group_variable_values = group.get_current_joint_values()
-	print group_variable_values
-	group_variable_values[0] = pos[0]
-	group_variable_values[1] = pos[1]
-	group_variable_values[2] = pos[2]
-	group_variable_values[3] = pos[3]
-	group_variable_values[4] = pos[4]
-	group_variable_values[5] = pos[5]
-	group.set_joint_value_target(group_variable_values)
-
-	plan2 = group.plan()
-	group.go(wait=True)
-	if(counter == 1):
-		pub.publish(390)
-	if(counter == 2):
-		pub.publish(150)
-	counter += 1
-	rospy.sleep(5)
-
-
-rospy.sleep(5)
+    group_variable_values = group.get_current_joint_values()
+    print group_variable_values
+    group_variable_values[0] = pos[0]
+    group_variable_values[1] = pos[1]
+    group_variable_values[2] = pos[2]
+    group_variable_values[3] = pos[3]
+    group_variable_values[4] = pos[4]
+    group_variable_values[5] = pos[5]
+    group.set_joint_value_target(group_variable_values)
+    plan2 = group.plan()
+    group.go(wait=True)
+    rospy.sleep(2)
+gripper_group.set_named_target("gripper_close") 
+plan_gripper = gripper_group.go(wait=True)
+#rospy.sleep(5)
 
 moveit_commander.roscpp_shutdown()

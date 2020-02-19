@@ -14,7 +14,7 @@
   <arg name="debug" default="false"/>
   
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find lynxbot_simulation)/worlds/my_world.world"/>
+    <arg name="world_name" value="$(find lynxbot_simulation)/worlds/my_world4.world"/>
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="gui" value="$(arg gui)"/>
@@ -25,15 +25,12 @@
   <!--spawn a robot in gazebo world-->
   
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" 
-  output="screen" args="-urdf -param robot_description -model lynxbot_bringup"/>
-
-  <node name="urdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" 
-  output="screen" args="-urdf -param object_description -model simple_box"/>
-
+  output="screen" args="-urdf -param robot_description -model lynx_rover"/>
 
 
   <include file="$(find lynxbot_bringup)/launch/my_robot_control.launch">
     <arg name="sim" value="$(arg sim)"/>
   </include>
 
+  
 </launch>

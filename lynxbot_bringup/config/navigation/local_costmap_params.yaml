@@ -1,7 +1,7 @@
 global_frame: odom
 robot_base_frame: robot_footprint
 update_frequency: 10
-publish_frequency: 2.0
+publish_frequency: 3
 width: 5
 height: 5
 resolution: 0.02

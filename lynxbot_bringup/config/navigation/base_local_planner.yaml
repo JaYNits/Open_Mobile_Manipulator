@@ -5,7 +5,7 @@ TrajectoryPlannerROS:
   acc_lim_x: 0.5
   acc_lim_theta:  0.5
 
-  max_vel_x: 0.45
+  max_vel_x: 0.6
   min_vel_x: 0.08
 
   max_vel_theta: 0.6
@@ -18,15 +18,15 @@ TrajectoryPlannerROS:
   # Goal Tolerance Parameters
   yaw_goal_tolerance: 0.2
   xy_goal_tolerance: 0.2
-  latch_xy_goal_tolerance: true
+  latch_xy_goal_tolerance: false
 
   # Forward Simulation Parameters
-  sim_time: 1.3
+  sim_time: 2.5
   sim_granularity: 0.02
   angular_sim_granularity: 0.02
-  vx_samples: 10
-  vtheta_samples: 20
-  controller_frequency: 20.0
+  vx_samples: 20
+  vtheta_samples: 50
+  controller_frequency: 30.0
 
   # Trajectory scoring parameters
   meter_scoring: true # Whether the gdist_scale and pdist_scale parameters should assume that goal_distance and path_distance are expressed in units of meters or cells. Cells are assumed by default (false).
@@ -53,16 +53,16 @@ DWAPlannerROS:
   # Robot configuration parameters
   acc_lim_x: 0.5
   acc_lim_y: 0
-  acc_lim_th: 0.3
+  acc_lim_th: 0.5
 
   max_vel_x: 0.6
   min_vel_x: 0
   max_vel_y: 0
   min_vel_y: 0
 
-  max_vel_trans: 0.13 #0.13
+  max_vel_trans: 0.6 #0.13
   min_vel_trans: 0.04 #0.09
-  max_vel_theta: 0.13 #0.13
+  max_vel_theta: 0.6 #0.13
   min_vel_theta: 0.04 #0.09
 
   # Goal Tolerance Parameters
@@ -71,18 +71,18 @@ DWAPlannerROS:
   latch_xy_goal_tolerance: true
 
   # # Forward Simulation Parameters
-  sim_time: 1.2
+  sim_time: 2.5
   sim_granularity: 0.02
-  vx_samples: 11
+  vx_samples: 20
   vy_samples: 0
-  vtheta_samples: 30
+  vtheta_samples: 50
   penalize_negative_x: false
   controller_frequency: 30.0
   # # Trajectory scoring parameters
   path_distance_bias: 40 #32 # The weighting for how much the controller should stay close to the path it was given
   goal_distance_bias: 32 #24.0 # The weighting for how much the controller should attempt to reach its local goal, also controls speed
   occdist_scale: 0.2 # The weighting for how much the controller should attempt to avoid obstacles
-  forward_point_distance: 0.225 #0.325 # The distance from the center point of the robot to place an additional scoring point, in meters
+  forward_point_distance: 0.05 #0.325 # The distance from the center point of the robot to place an additional scoring point, in meters
   stop_time_buffer: 0.2  # The amount of time that the robot must stThe absolute value of the veolicty at which to start scaling the robot's footprint, in m/sop before a collision in order for a trajectory to be considered valid in seconds
   scaling_speed: 0.2 # The absolute value of the velocity at which to start scaling the robot's footprint, in m/s
   max_scaling_factor: 0.2 # The maximum factor to scale the robot's footprint by
@@ -93,7 +93,7 @@ DWAPlannerROS:
 
 TebLocalPlannerROS:
 
- odom_topic: odom
+ odom_topic: /diff_velocity_controller/odom
 
  exact_arc_length: false
 
@@ -109,10 +109,10 @@ TebLocalPlannerROS:
 
  # Robot
 
- max_vel_x: 0.23
- max_vel_x_backwards: 0.2
+ max_vel_x: 0.5
+ max_vel_x_backwards: 0.5
  max_vel_y: 0.0
- max_vel_theta: 0.23
+ max_vel_theta: 0.5
  acc_lim_x: 0.5
  acc_lim_theta: 0.5
  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
@@ -128,7 +128,7 @@ TebLocalPlannerROS:
 
  # Obstacles
 
- min_obstacle_dist: 0.45 # This value must also include our robot radius, since footprint_model is set to "point".
+ min_obstacle_dist: 0.6 # This value must also include our robot radius, since footprint_model is set to "point".
  include_costmap_obstacles: True
  costmap_obstacles_behind_robot_dist: 1.5
  obstacle_poses_affected: 30

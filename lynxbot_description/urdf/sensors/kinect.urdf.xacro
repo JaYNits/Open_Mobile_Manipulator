@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<root name="lynx_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="lynx_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
  <xacro:arg name="sim" default="false"/>
  <xacro:if value="$(arg sim)">
    <xacro:include filename="$(find lynxbot_description)/urdf/sensors/kinect_gazebo.xacro" />
   <!-- camera_name has to be unique! -->
-  <xacro:kinect_sensor link_name="camera_depth_frame" camera_name="camera1"
+  <xacro:kinect_sensor link_name="camera_depth_frame" camera_name="camera"
                        frame_name="camera_depth_optical_frame"/>
  </xacro:if>
 	
@@ -95,4 +95,4 @@
 			</inertial>
 		</link>
 	</xacro:macro>
-</root>
+</robot>

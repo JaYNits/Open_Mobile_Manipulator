@@ -3,10 +3,10 @@
   <arg name="sim" default="false"/>
   <!-- send urdf to param server -->
   <param name="robot_description" command="$(find xacro)/xacro '$(find lynxbot_description)/urdf/lynx_rover.urdf.xacro' sim:=$(arg sim)" />
-  <group if="$(arg sim)">
+  <!--group if="$(arg sim)">
        <param name="object_description" command="$(find xacro)/xacro '$(find lynxbot_description)/urdf/object.urdf.xacro' sim:=$(arg sim)" />
-  </group>
-  <param name="robot_description" command="$(find xacro)/xacro '$(find lynxbot_description)/urdf/lynx_rover.urdf.xacro' sim:=$(arg sim)" />
+  </group-->
+
 
   <!-- Send fake joint values-->
     <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

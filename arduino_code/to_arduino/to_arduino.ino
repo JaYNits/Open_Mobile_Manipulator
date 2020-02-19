@@ -45,16 +45,16 @@ Quadrature_encoder<44,45> encoder_bleft(Board::due);
 
 // Initialize pin numbers
 
-const uint8_t RF_PWM = 11;
+const uint8_t RF_PWM = 9;
 const uint8_t RF_BACK = 27;
 const uint8_t RF_FORW = 26;
 const uint8_t LF_BACK = 25;
 const uint8_t LF_FORW = 24;
-const uint8_t LF_PWM = 9;
+const uint8_t LF_PWM = 8;
 
-const uint8_t RB_PWM = 12;
-const uint8_t RB_BACK = 30;
-const uint8_t RB_FORW = 31;
+const uint8_t RB_PWM = 11;
+const uint8_t RB_BACK = 31;
+const uint8_t RB_FORW = 30;
 const uint8_t LB_BACK = 28;
 const uint8_t LB_FORW = 29;
 const uint8_t LB_PWM = 10;
@@ -216,13 +216,13 @@ void setpins()
 // And if an encoder has negative value we reverse it.
 
 void fix_encoder_ori_on_start(){
-  int x=180;
+  int x=230;
   analogWrite(RF_PWM, x);
   analogWrite(LF_PWM, x);
   analogWrite(RB_PWM, x);  
   analogWrite(LB_PWM, x); 
   
-  delay(300);
+  delay(400);
 
   analogWrite(RF_PWM, 0);
   analogWrite(LF_PWM, 0);

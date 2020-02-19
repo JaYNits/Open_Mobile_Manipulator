@@ -1,8 +1,4 @@
 controller_list:
-  - name: fake_gripper_controller
-    joints:
-      - joint_finger1
-      - joint_finger2
   - name: fake_arm_controller
     joints:
       - joint_0
@@ -11,3 +7,7 @@ controller_list:
       - joint_3
       - joint_4
       - joint_5
+  - name: fake_gripper_controller
+    joints:
+      - joint_finger1
+      - joint_finger2
