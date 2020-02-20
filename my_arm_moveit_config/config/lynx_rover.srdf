@@ -42,7 +42,7 @@
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="ee_gripper" parent_link="link_5" group="gripper" parent_group="arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-    <virtual_joint name="virtual_joint" type="fixed" parent_frame="link_0" child_link="robot_footprint" />
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="dummy" child_link="robot_footprint" />
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
     <passive_joint name="back_left_wheel_joint" />
     <passive_joint name="back_right_wheel_joint" />
@@ -120,7 +120,6 @@
     <disable_collisions link1="camera_link" link2="link_5" reason="Never" />
     <disable_collisions link1="camera_link" link2="wood_base" reason="Never" />
     <disable_collisions link1="chassis" link2="ee_base" reason="Never" />
-    <disable_collisions link1="chassis" link2="finger1" reason="Never" />
     <disable_collisions link1="chassis" link2="finger2" reason="Never" />
     <disable_collisions link1="chassis" link2="front_left_wheel" reason="Adjacent" />
     <disable_collisions link1="chassis" link2="front_right_wheel" reason="Adjacent" />
@@ -136,7 +135,6 @@
     <disable_collisions link1="chassis" link2="wood_base" reason="Adjacent" />
     <disable_collisions link1="ee_base" link2="finger1" reason="Adjacent" />
     <disable_collisions link1="ee_base" link2="finger2" reason="Adjacent" />
-    <disable_collisions link1="ee_base" link2="front_left_wheel" reason="Never" />
     <disable_collisions link1="ee_base" link2="front_right_wheel" reason="Never" />
     <disable_collisions link1="ee_base" link2="kinect_base1" reason="Never" />
     <disable_collisions link1="ee_base" link2="kinect_base2" reason="Never" />
@@ -166,7 +164,6 @@
     <disable_collisions link1="finger2" link2="link_3" reason="Never" />
     <disable_collisions link1="finger2" link2="link_4" reason="Never" />
     <disable_collisions link1="finger2" link2="link_5" reason="Never" />
-    <disable_collisions link1="finger2" link2="wood_base" reason="Never" />
     <disable_collisions link1="front_left_wheel" link2="front_right_wheel" reason="Never" />
     <disable_collisions link1="front_left_wheel" link2="kinect_base1" reason="Never" />
     <disable_collisions link1="front_left_wheel" link2="kinect_base2" reason="Never" />

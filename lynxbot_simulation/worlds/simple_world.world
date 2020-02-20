@@ -58,6 +58,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
     </model>
     <gravity>0 0 -9.8</gravity>
@@ -123,6 +124,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_11'>
         <collision name='Wall_11_Collision'>
@@ -165,6 +167,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_13'>
         <collision name='Wall_13_Collision'>
@@ -207,6 +210,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_14'>
         <collision name='Wall_14_Collision'>
@@ -249,6 +253,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_16'>
         <collision name='Wall_16_Collision'>
@@ -291,6 +296,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_17'>
         <collision name='Wall_17_Collision'>
@@ -333,6 +339,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_19'>
         <collision name='Wall_19_Collision'>
@@ -375,6 +382,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_21'>
         <collision name='Wall_21_Collision'>
@@ -417,6 +425,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_23'>
         <collision name='Wall_23_Collision'>
@@ -459,6 +468,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_25'>
         <collision name='Wall_25_Collision'>
@@ -501,6 +511,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_27'>
         <collision name='Wall_27_Collision'>
@@ -543,6 +554,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_29'>
         <collision name='Wall_29_Collision'>
@@ -585,6 +597,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_30'>
         <collision name='Wall_30_Collision'>
@@ -627,6 +640,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_32'>
         <collision name='Wall_32_Collision'>
@@ -669,6 +683,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_4'>
         <collision name='Wall_4_Collision'>
@@ -711,6 +726,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_5'>
         <collision name='Wall_5_Collision'>
@@ -753,6 +769,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_6'>
         <collision name='Wall_6_Collision'>
@@ -795,6 +812,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <link name='Wall_7'>
         <collision name='Wall_7_Collision'>
@@ -837,14 +855,15 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
       </link>
       <static>1</static>
     </model>
     <state world_name='default'>
-      <sim_time>66 622000000</sim_time>
-      <real_time>66 786242999</real_time>
-      <wall_time>1574005784 139475990</wall_time>
-      <iterations>66622</iterations>
+      <sim_time>659 296000000</sim_time>
+      <real_time>203 49262141</real_time>
+      <wall_time>1582207166 827427607</wall_time>
+      <iterations>127645</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -855,8 +874,18 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='my_cylinder_blue'>
+        <pose frame=''>0.429824 0.012259 0.110914 -0.005107 0.004819 0.002441</pose>
+        <scale>0.366916 0.366916 3.58996</scale>
+        <link name='link'>
+          <pose frame=''>0.429824 0.012259 0.110914 -0.005107 0.004819 0.002441</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.00683 -0.007275 -0.000838 0.065595 -0.06158 -0</acceleration>
+          <wrench>-0.00683 -0.007275 -0.000838 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='sim_world'>
-        <pose frame=''>0.267794 -0.413952 0 0 -0 0</pose>
+        <pose frame=''>0.267794 -0.41395 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_10'>
           <pose frame=''>-0.139034 1.95663 0 0 -0 0</pose>
@@ -973,10 +1002,72 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-2.86242 -5.74461 38.6746 0 1.44764 1.5162</pose>
+        <pose frame=''>-0.588187 -1.18902 1.19476 0 0.58764 0.7842</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <model name='my_cylinder_blue'>
+      <static>0</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.0274542</radius>
+              <length>0.0617533</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <cylinder>
+              <radius>0.0274542</radius>
+              <length>0.0617533</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Blue</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>0.611925 -0.103127 0 0 -0 0</pose>
+    </model>
   </world>
 </sdf>

@@ -47,9 +47,9 @@
   <xacro:property name="kinect_parent" value="kinect_base2" />
   <xacro:property name="cam_px" value="0.03" />
   <xacro:property name="cam_py" value="0.0" />
-  <xacro:property name="cam_pz" value="0.09" />
+  <xacro:property name="cam_pz" value="0.1" />
   <xacro:property name="cam_or" value="0.0" />
-  <xacro:property name="cam_op" value="0.2" />
+  <xacro:property name="cam_op" value="0.54" />
   <xacro:property name="cam_oy" value="0.0" />
 
 

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+
 <launch>
+
+  
   <arg name="sim" default="true"/>
   <include file="$(find lynxbot_bringup)/launch/robot_description.launch">
   	<arg name="sim" value="$(arg sim)"/>
   </include>
 
-  <arg name="world" default="empty"/> 
+  <arg name="world" default="simple_world"/>
+  <!--arg name="world" default="mydesigned_world"/-->
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -14,7 +19,7 @@
   <arg name="debug" default="false"/>
   
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find lynxbot_simulation)/worlds/my_world4.world"/>
+    <arg name="world_name" value="$(find lynxbot_simulation)/worlds/$(arg world).world"/>
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="gui" value="$(arg gui)"/>

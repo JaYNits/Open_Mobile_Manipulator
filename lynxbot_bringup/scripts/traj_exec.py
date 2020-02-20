@@ -61,7 +61,7 @@ pose_target.orientation.w = q[3]
 
 pose_target.position.x = trans[0]
 pose_target.position.y = trans[1]
-pose_target.position.z = trans[2]
+pose_target.position.z = trans[2] 
 
 pose_target.position.x = trans[0] - 0.1
 arm_group.set_pose_target(pose_target)
