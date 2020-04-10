@@ -48,15 +48,15 @@ Quadrature_encoder<44,45> encoder_bleft(Board::due);
 const uint8_t RF_PWM = 9;
 const uint8_t RF_BACK = 27;
 const uint8_t RF_FORW = 26;
-const uint8_t LF_BACK = 25;
-const uint8_t LF_FORW = 24;
+const uint8_t LF_BACK = 24;
+const uint8_t LF_FORW = 25;
 const uint8_t LF_PWM = 8;
 
 const uint8_t RB_PWM = 11;
-const uint8_t RB_BACK = 31;
-const uint8_t RB_FORW = 30;
-const uint8_t LB_BACK = 28;
-const uint8_t LB_FORW = 29;
+const uint8_t RB_BACK = 30;
+const uint8_t RB_FORW = 31;
+const uint8_t LB_BACK = 29;
+const uint8_t LB_FORW = 28;
 const uint8_t LB_PWM = 10;
 bool wtf;
 

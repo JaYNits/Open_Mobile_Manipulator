@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<launch>
+
+  <!-- parameters -->
+
+  <arg name="sim" default="true"/>
+  <arg name="world" default="box_world"/>
+  <!--arg name="world" default="simple_world"/-->
+  <!--arg name="world" default="mydesigned_world"/-->
+  <!--arg name="world" default="object_seg_world"/-->
+  <!--arg name="world" default="object_rec_world"/-->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+
+  <!-- send urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/lynxbot/lynx_rover.urdf.xacro' sim:=$(arg sim)" />
+
+  <!-- Send robot states to tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+      <param name="publish_frequency" type="double" value="10.0" />
+    </node>
+  
+
+  <!-- load the controller configuration on the param server -->
+
+  <rosparam file="$(find ommp_bringup)/config/control/my_robot_control.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/joint_state_controller.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/diff_control.yaml" command="load"/>
+
+  <!-- launch the controller manager for ros control -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller diff_velocity_controller arm_controller gripper_controller kinect_controller"/>
+
+
+  <!-- launch the gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find ommp_simulation)/worlds/$(arg world).world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+  
+  <!--spawn the robot in gazebo world-->
+  
+  <node name="urdf_spawner_lynx_rover" pkg="gazebo_ros" type="spawn_model" respawn="false" 
+  output="screen" args="-urdf -param robot_description -model lynx_rover -z 0.0"/>
+  
+  <!-- robot localization sensor fusion wheel encoders + imu -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam file="$(find ommp_bringup)/config/navigation/ekf_localization.yaml" command="load" />
+    <remap from="odometry/filtered" to="odom_combined"/>
+  </node>
+
+</launch>

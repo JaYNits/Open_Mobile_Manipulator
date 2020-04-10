@@ -1,0 +1,103 @@
+<?xml version='1.0'?>
+
+<robot name="mobile_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="sim" default="true"/>
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <xacro:include filename="$(find ommp_description)/urdf/common_properties.urdf.xacro" />
+
+  <xacro:include filename="$(find ommp_description)/urdf/grippers/gripper3/gripper3.urdf" />
+
+  <xacro:if value="$(arg sim)">
+
+      <xacro:include filename="$(find ommp_description)/urdf/robots/mobile_manipulator/mobile_manipulator.gazebo.xacro" />
+      <xacro:include filename="$(find ommp_description)/urdf/bases/mobile_manipulator_base/mobile_manipulator_base.gazebo.xacro" />
+      <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect.gazebo.xacro" />
+      <xacro:include filename="$(find ommp_description)/urdf/sensors/ydlidar/ydlidar.gazebo.xacro" />
+      <xacro:include filename="$(find ommp_description)/urdf/arms/ur10/ur10.gazebo.xacro" />
+
+  </xacro:if>
+
+
+  <xacro:include filename="$(find ommp_description)/urdf/base/mobile_manipulator_base.urdf.xacro" />
+
+  <xacro:include filename="$(find ommp_description)/urdf/sensors/ydlidar.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/wheels/omni_wheel.urdf.xacro" />
+
+  <xacro:include filename="$(find ommp_description)/urdf/transmissions.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/macros/inertia_macros.urdf.xacro" />
+
+  <!-- ur10 -->
+  <xacro:include filename="$(find ommp_description)/urdf/arms/ur10/ur10.urdf.xacro" />
+
+
+
+  <omni_steering />
+  <xacro:sensor_kinect parent="wrist_3_link" />
+  <xacro:kinect_gazebo_sensor link_name="camera_depth_frame" camera_name="camera"
+                       frame_name="camera_depth_optical_frame"/>
+
+  <mobile_manipulator_base />
+
+
+  <xacro:omni_wheel prefix="$(arg prefix)front_right" parent="$(arg prefix)chassis" reflect="false" hq="${hq}">
+    <origin xyz="${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+  <xacro:omni_wheel prefix="$(arg prefix)front_left" parent="$(arg prefix)chassis" reflect="true" hq="${hq}">
+    <origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+  <xacro:omni_wheel prefix="$(arg prefix)back_left" parent="$(arg prefix)chassis" reflect="true" hq="${hq}">
+    <origin xyz="-${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+  <xacro:omni_wheel prefix="$(arg prefix)back_right" parent="$(arg prefix)chassis" reflect="false" hq="${hq}">
+    <origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+
+
+  <sensor_laser parent="chassis" />
+
+
+  <!-- arm -->
+  <xacro:ur10_robot prefix="" joint_limited="true"
+    shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+    shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+    elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+    wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+    wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+    wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+
+  <joint name="arm_joint2" type="fixed">
+    <parent link="upper_base" />
+    <child link = "base_arm" />
+    <origin xyz="0.3 0.0 0.06" rpy="0.0 0.0 0.0" />
+  </joint>
+  <xacro:if value="$(arg sim)">
+    <laser_gazebo_sensor link_name="laser_link" laser_name="ydlidar"
+                         frame_name="laser_link"/>
+  </xacro:if>
+
+  <!--xacro:sensor_kinect parent="${kinect_parent}"  cam_px="${cam_px}" cam_py="${cam_py}" cam_pz="${cam_pz}"
+                                              cam_or="${cam_or}" cam_op="${cam_op}" cam_oy="${cam_oy}"/>
+  
+  <xacro:my_arm parent="${arm_parent}" arm_x="${arm_x}" arm_y="${arm_y}" arm_z="${arm_z}" />
+  <xacro:my_ee parent="${ee_parent}" />
+
+  <xacro:if value="$(arg sim)">
+
+    <xacro:kinect_sensor link_name="camera_depth_frame" camera_name="camera"
+                       frame_name="camera_depth_optical_frame"/>
+
+  </xacro:if-->
+
+</robot>
+

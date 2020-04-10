@@ -33,7 +33,7 @@ class cloudHandler
 public:
     cloudHandler()
     {
-        pcl_sub = nh.subscribe("/camera/depth/points", 10, &cloudHandler::cloudCB, this);
+        pcl_sub = nh.subscribe("/camera/depth_registered/points", 10, &cloudHandler::cloudCB, this);
         pcl_object_pub = nh.advertise<sensor_msgs::PointCloud2>("object_out", 1);
         //ind_pub = nh.advertise<pcl_msgs::PointIndices>("point_indices", 1);
         //coef_pub = nh.advertise<pcl_msgs::ModelCoefficients>("planar_coef", 1);
@@ -220,7 +220,7 @@ public:
         broadcaster.sendTransform(tf::StampedTransform(transform, ros::Time::now(), header.frame_id, "target"));
 
         pcl::toROSMsg(*cloud_cylinder_big, output);
-        output.header.frame_id = "camera_depth_optical_frame";
+        output.header.frame_id = "camera_rgb_optical_frame";
         pcl_object_pub.publish(output);
 
 

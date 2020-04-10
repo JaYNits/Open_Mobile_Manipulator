@@ -1,0 +1,74 @@
+<?xml version='1.0'?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+ <xacro:include filename="$(find ommp_description)/urdf/macros/link_joint_macro.urdf.xacro" />
+
+ <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.transmissions.xacro" />
+
+  <xacro:if value="$(arg sim)">
+
+      <!-- Gazebo gripper -->
+      <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.gazebo.xacro" />
+  
+  </xacro:if>
+
+<xacro:property name="m_ee" value="0.1" />
+<xacro:property name="m_f1" value="0.01" />
+<xacro:property name="m_f2" value="0.01" />
+
+<xacro:macro name="costum_ee" params="parent">
+
+  <xacro:ee_joint joint_name="joint_ee_base" parent="${parent}" child = "ee_base"
+               type = "fixed"
+               origin_xyz = "0 0 0.006"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 0 1"
+               axis_rpy = "0 0 0"
+         lower_limit = "0"
+               upper_limit = "0"/>
+
+  <xacro:ee_link link_name="ee_base" size_x="0.012" size_y="0.004" size_z="0.05" 
+              origin_xyz="0 0 0.004"
+              origin_rpy="1.57 0 0"
+              color_name = "green"
+              color = "0 1 0 1"
+              mass = "${m_ee}"/>
+
+  <xacro:ee_link link_name="finger1" size_x="0.012" size_y="0.002" size_z="0.03"
+              origin_xyz="0 0 0.015"
+              origin_rpy="0 0 0"
+              color_name = "green"
+              color = "0 1 0 1"
+              mass = "${m_f1}"/>
+
+  <xacro:ee_joint joint_name="joint_finger1" parent="ee_base" child = "finger1"
+               type = "prismatic"
+               origin_xyz = "0 -0.025 0.004"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 1 0"
+               axis_rpy = "0 0 0"
+         lower_limit = "0.0"
+               upper_limit = "0.025"/>
+
+
+  <xacro:ee_link link_name="finger2" size_x="0.012" size_y="0.002" size_z="0.03"
+              origin_xyz="0 0 0.015"
+              origin_rpy="0 0 0"
+              color_name = "green"
+              color = "0 1 0 1"
+              mass = "${m_f2}"/>
+
+  <xacro:ee_joint joint_name="joint_finger2" parent="ee_base" child = "finger2"
+               type = "prismatic"
+               origin_xyz = "0 0.025 0.004"
+               origin_rpy = "0 0 ${M_PI}"
+               axis_xyz = "0 1 0"
+               axis_rpy = "0 0 0"
+         lower_limit = "0.0"
+               upper_limit = "0.025"/>
+</xacro:macro>
+
+
+</robot>
+

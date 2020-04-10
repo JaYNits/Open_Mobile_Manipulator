@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-  <node name="teleop" pkg="lynxbot_bringup" type="teleop" output="screen">
-     <remap from="teleop/cmd_vel" to="/diff_velocity_controller/cmd_vel"/>
-  </node>
-</launch>

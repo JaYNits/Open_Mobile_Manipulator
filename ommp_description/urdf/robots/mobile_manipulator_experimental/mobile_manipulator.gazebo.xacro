@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      
+      <!--robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType-->
+    </plugin>
+  </gazebo>
+
+
+
+	<!--gazebo>
+	  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+	    <updateRate>100.0</updateRate>
+	    <robotNamespace>/</robotNamespace>
+	    <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+	    <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+	    <leftRearJoint>back_left_wheel_joint</leftRearJoint>
+	    <rightRearJoint>back_right_wheel_joint</rightRearJoint>
+	    <wheelSeparation>0.28</wheelSeparation>
+	    <wheelDiameter>0.11</wheelDiameter>
+	    <robotBaseFrame>robot_footprint</robotBaseFrame>
+	    <torque>30</torque>
+	    <topicName>cmd_vel</topicName>
+	    <broadcastTF>true</broadcastTF>
+	  </plugin>
+	</gazebo-->
+
+
+  <xacro:macro name="omni_steering" params="">
+    <gazebo>
+      <plugin name="omni_steering" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>50.0</odometryRate>
+        <robotBaseFrame>robot_footprint</robotBaseFrame>
+        <publishTF>true</publishTF>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+
+  <xacro:property name="material_white">
+    <material name="white">
+      <color rgba="1 1 1 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_grey">
+    <material name="grey">
+      <color rgba="0.5 0.5 0.5 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_light_grey">
+    <material name="light_grey">
+      <color rgba="0.6 0.6 0.6 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_dark_grey">
+    <material name="dark_grey">
+      <color rgba="0.3 0.3 0.3 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_black">
+    <material name="black">
+      <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_red">
+    <material name="red">
+      <color rgba="1 0 0 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_green">
+    <material name="green">
+      <color rgba="0.0 0.8 0.0 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_blue">
+    <material name="blue">
+      <color rgba="0.0 0.0 1.0 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_grey_blue">
+    <material name="grey_blue">
+      <color rgba="0.4 0.4 1.0 1"/>
+    </material>
+  </xacro:property>
+  <xacro:property name="material_orange">
+    <material name="orange">
+      <color rgba="1.0 0.7 0.0 1"/>
+    </material>
+  </xacro:property>
+
+
+</robot>
+

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <node name="Pub_to_Arduino" pkg="lynxbot_bringup" type="Pub_to_Arduino_Class" respawn="false" 
+  output="screen"/>
+
+  <node name="Cmd_Vel_to_Arduino" pkg="lynxbot_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 
+  output="screen"/>
+
+
+  <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+      <param name="port" value="/dev/ttyACM0" />
+      <param name="baud" value="115200" />
+  </node>
+
+  <node name="teleop" pkg="ommp_bringup" type="teleop" output="screen">
+     <!--remap from="teleop/cmd_vel" to="/diff_velocity_controller/cmd_vel"/-->
+     <remap from="teleop/cmd_vel" to="/cmd_vel"/>
+  </node>
+</launch>
+

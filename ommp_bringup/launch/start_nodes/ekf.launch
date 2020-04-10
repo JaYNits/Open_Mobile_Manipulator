@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam file="$(find ommp_bringup)/config/start/ekf_localization.yaml" command="load" />
+    <remap from="odometry/filtered" to="odom"/>
+  </node>
+
+</launch>

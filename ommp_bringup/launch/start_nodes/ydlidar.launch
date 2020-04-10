@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>  
+  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
+    <rosparam file="$(find ommp_bringup)/config/start/ydlidar_params.yaml" command="load" />
+  </node>
+</launch>

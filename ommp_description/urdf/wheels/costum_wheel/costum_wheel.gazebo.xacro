@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<robot name="lynx_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+
+
+  <gazebo reference="front_left_wheel">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="front_right_wheel">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="back_left_wheel">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="back_right_wheel">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+</robot>

@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <node pkg="lynxbot_bringup" type="diff_tf4.py" name="diff_tf" output="screen">
-
-    <rosparam file="$(find lynxbot_bringup)/config/odom_encoder_params.yaml" command="load" />
-  </node>
-</launch>

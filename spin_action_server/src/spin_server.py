@@ -41,7 +41,7 @@ class TurnRobotAction(object):
 			else:
 				#calculate the differences in orientation
 				cur_angle = transformations.euler_from_quaternion((self.cur_orientation.x, self.cur_orientation.y,
-					self.cur_orientation.z, self.initial_orientation.w))
+					self.cur_orientation.z, self.cur_orientation.w))
 				start_angle = transformations.euler_from_quaternion((self.initial_orientation.x, self.initial_orientation.y,
 					self.initial_orientation.z, self.initial_orientation.w))
 
