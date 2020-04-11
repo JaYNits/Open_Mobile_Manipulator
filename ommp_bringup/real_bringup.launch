@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <arg name="sim" default="false"/>
+
+  <!-- send urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/lynxbot_real/lynx_rover_real.urdf.xacro' sim:=$(arg sim)" />
+
+  <!-- Send robot states to tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="5.0" />
+
+  <!-- load controllers to param server-->
+  <rosparam file="$(find ommp_bringup)/config/control/my_robot_control.yaml" command="load"/>
+  <!--rosparam file="$(find ommp_bringup)/config/control/diff_control.yaml" command="load"/-->
+  
+  <!-- start hardware interface for the arm -->
+  <node name="my_arm_hardware_interface" pkg="my_hardware_interface" type="myrobot_hw_main"
+          output="screen" launch-prefix=""/>
+  
+  <!-- start controller manager -->
+  <node name="controller_spawner_joint_state" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller arm_controller gripper_controller"/>
+
+  <!-- Transforms Joint_states to appropiate servo commmands for rosserial -->
+  <!-- Arm is a clone of joint_States - perfect execution -->
+  <node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
+  output="screen"/>
+  
+  <!-- Transforms cmd_vel to appropiate wheel velocity target for rosserial-pid -->
+  <node name="Cmd_Vel_to_Arduino" pkg="ommp_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 
+  output="screen"/>
+
+  <!-- Kinect motors pitch -->
+  <!--node name="Kinect_AUX" pkg="kinect_aux" type="kinect_aux_node" respawn="false" 
+  output="screen"/-->
+
+
+  <!-- Start the LIDAR driver -->
+  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
+    <rosparam file="$(find ommp_bringup)/config/start/ydlidar_params.yaml" command="load" />
+  </node>
+
+
+  <!-- From encoders array values calculate odometry -->
+  <node pkg="lynxbot_bringup" type="Diff_TF" name="Diff_TF" output="screen">
+    <rosparam file="$(find ommp_bringup)/config/start/odom_encoder_params.yaml" command="load" />
+  </node>
+  
+  <!-- Start rosserial Arduino node -->
+  <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+      <rosparam file="$(find ommp_bringup)/config/start/serial_params.yaml" command="load" />
+  </node>
+
+  <!-- Comment : to start Kinect driver I use docker run the following command-->
+  <!-- sudo docker run net=host privileged kinect_image:1.0 -->
+
+
+  <!-- Optional laser odometry publish tf? -->
+  <!--node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
+    <rosparam file="$(find ommp_bringup)/config/rf2o_laser_odometry_params.yaml" command="load" />
+  </node-->
+
+  <!-- Optional EKF Sensor Fusion -->
+  <!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam file="$(find ommp_bringup)/config/ekf_localization.yaml" command="load" />
+    <remap from="odometry/filtered" to="odom"/>
+  </node-->
+
+</launch>

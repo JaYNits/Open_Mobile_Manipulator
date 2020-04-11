@@ -26,9 +26,15 @@ This can help you to learn
 
 ![](data/gifs/Object_Recognition.gif)
 
+**Gazebo Grasping sequence, out of the way**
+
+![](data/gifs/Gazebo_Grasp.gif)
+
 **RTAB-Mapping in a feaure rich simulated Gazebo world**
 
 ![](data/gifs/RTAB-Map_mapping.gif)
+
+
 
 ## Youtube Videos
 
@@ -45,7 +51,7 @@ This can help you to learn
 
 ## For real robot run the command
 
-**$ roslaunch ommp_bringup lynxbot_bringup.launch**
+**$ roslaunch ommp_bringup real_bringup.launch**
 
 **In order to launch the robot description, controllers - hardware interface for the arm, rosserial and sensor drivers**
 
@@ -57,17 +63,18 @@ This can help you to learn
 
 ## For simulation
 
-**$ roslaunch lynxbot_simulation sim_bringup.launch**
+**$ roslaunch ommp_simulation sim_bringup.launch**
 
 **To again launch the robot in the Gazebo alongside the controllers etc..**
 
 **Then you can try for example the following commands**
 
-**$ roslaunch lynxbot_bringup moveit.launch**
+**$ roslaunch ommp_bringup moveit.launch**
+**$ rosrun ommp_bringup set_start_pos.py**
 
-**$ roslaunch lynxbot_bringup gmapping.launch**
+**$ roslaunch ommp_bringup gmapping.launch**
 
-**$ roslaunch lynxbot_bringup teleop.launch**
+**$ roslaunch ommp_bringup teleop.launch**
 
 ## Scripting
 
