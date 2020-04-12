@@ -13,6 +13,9 @@ This can help you to learn
 
 ##Some GIFS
 
+
+#### On Simulated robot
+
 **Autonomous SLAM - gmapping - move_base - greedy exploration**
 
 
@@ -34,7 +37,23 @@ This can help you to learn
 
 ![](data/gifs/RTAB-Map_mapping.gif)
 
+#### On Real Robot
 
+**Autonomous Navigation - Move_base - AMCL**
+
+![](data/gifs/Autonomous_Navigation_real.gif)
+
+**Real Arm Motion**
+
+![](data/gifs/Real_Arm_Moveit.gif)
+
+**3D Mapping my home with RTAB-Map**
+
+![](data/gifs/RTAB-Map_home.gif)
+
+**Robot-Kidnap Localization with RTAB-Map**
+
+![](data/gifs/RTAB-Map_Localization.gif)
 
 ## Youtube Videos
 
