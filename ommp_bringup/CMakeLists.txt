@@ -19,9 +19,12 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   control_msgs
   sensor_msgs
-  #rtabmap_ros
-  #amcl
-  #map_server
+  rtabmap_ros
+  amcl
+  map_server
+  move_base
+  robot_localization
+
 
 )
 

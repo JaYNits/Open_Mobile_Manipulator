@@ -56,30 +56,27 @@ def pcl_callback(pcl_msg):
 
     # RANSAC plane segmentation
     ################################
-    # Create the segmentation object
-    seg = cloud_filtered.make_segmenter()
-    # Set the model you wish to fit 
-    seg.set_model_type(pcl.SACMODEL_PLANE)
-    seg.set_method_type(pcl.SAC_RANSAC)
+    for i in range(2):
+        # Create the segmentation object
+        seg = cloud_filtered.make_segmenter()
+        # Set the model you wish to fit 
+        seg.set_model_type(pcl.SACMODEL_PLANE)
+        seg.set_method_type(pcl.SAC_RANSAC)
+        # Max distance for a point to be considered fitting the model
+        max_distance = 0.01
+        seg.set_distance_threshold(max_distance)
+        # Call the segment function to obtain set of inlier indices and model coefficients
+        inliers, coefficients = seg.segment()
+        if i==0:
+            # Extract inliers pcd for table
+            cloud_table = cloud_filtered.extract(inliers, negative=False)
+        if i==1:
+            cloud_table1 = cloud_filtered.extract(inliers, negative=False)
+        #if i==2:
+        #    cloud_table2 = cloud_filtered.extract(inliers, negative=False)
+        cloud_filtered = cloud_filtered.extract(inliers, negative=True)
 
-    # Max distance for a point to be considered fitting the model
-    # Experiment with different values for max_distance 
-    # for segmenting the table
-    max_distance = 0.01
-    seg.set_distance_threshold(max_distance)
-
-    # Call the segment function to obtain set of inlier indices and model coefficients
-    inliers, coefficients = seg.segment()
-
-    # Extract inliers
-    # pcd for table
-
-    cloud_table = cloud_filtered.extract(inliers, negative=False)
-
-    # Extract outliers
-    # pcd for tabletop objects
-
-    cloud_objects= cloud_filtered.extract(inliers, negative=True)
+    cloud_objects = cloud_filtered
 
     # Euclidean Clustering
     white_cloud = XYZRGB_to_XYZ(cloud_objects)
@@ -125,12 +122,16 @@ def pcl_callback(pcl_msg):
     ################################
     ros_cloud_objects = pcl_to_ros(cloud_objects)
     ros_cloud_table   = pcl_to_ros(cloud_table)
+    ros_cloud_table1   = pcl_to_ros(cloud_table1)
+    #ros_cloud_table2   = pcl_to_ros(cloud_table2)
     ros_cluster_cloud = pcl_to_ros(cluster_cloud)
 
     # Publish ROS messages
     ################################
     pcl_objects_pub.publish(ros_cloud_objects)
     pcl_table_pub.publish(ros_cloud_table)
+    pcl_table1_pub.publish(ros_cloud_table1)
+    #pcl_table2_pub.publish(ros_cloud_table2)
     pcl_cluster_pub.publish(ros_cluster_cloud)
 
     # Exercise-3: 
@@ -217,7 +218,7 @@ def tf_center_pub(object_list):
         z = object[0][2]
         name = object[1]  
         br.sendTransform((x, y, z),
-                         tf.transformations.quaternion_from_euler(0, 0, 0),
+                         tf.transformations.quaternion_from_euler(0, 0.0, 0),
                          rospy.Time.now(),
                          name,
                          "camera_rgb_optical_frame"
@@ -244,6 +245,8 @@ if __name__ == '__main__':
     #pcl_test_pub      = rospy.Publisher("/pcl_test"     , PointCloud2,          queue_size=1)
     pcl_objects_pub      = rospy.Publisher("/pcl_objects"     , PointCloud2,          queue_size=1)
     pcl_table_pub        = rospy.Publisher("/pcl_table"       , PointCloud2,          queue_size=1)
+    pcl_table1_pub        = rospy.Publisher("/pcl_table1"       , PointCloud2,          queue_size=1)
+    #pcl_table2_pub        = rospy.Publisher("/pcl_table2"       , PointCloud2,          queue_size=1)
     pcl_cluster_pub      = rospy.Publisher("/pcl_cluster"     , PointCloud2,          queue_size=1)
     object_markers_pub   = rospy.Publisher("/object_markers"  , Marker,               queue_size=1)
     detected_objects_pub = rospy.Publisher("/detected_objects", DetectedObjectsArray, queue_size=1)

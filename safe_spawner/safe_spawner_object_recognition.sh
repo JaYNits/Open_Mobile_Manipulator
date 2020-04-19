@@ -2,7 +2,7 @@
 #! /bin/bash
 
 
-x-terminal-emulator -e roslaunch ommp_bringup sim_bringup.launch world:=object_rec_world 2>/dev/null &&
+x-terminal-emulator -e roslaunch ommp_bringup sim_bringup.launch world:=object_rec_test 2>/dev/null &&
 
 sleep 5 &&
 

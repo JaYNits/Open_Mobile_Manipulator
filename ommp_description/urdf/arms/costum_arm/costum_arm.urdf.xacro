@@ -149,7 +149,7 @@
 
   <xacro:arm_joint joint_name="joint_5" parent="link_4" child = "link_5"
                type = "revolute"
-               origin_xyz = "-0.006 0 0.026"
+               origin_xyz = "0 0 0.026"
                origin_rpy = "0 0 0"
                axis_xyz = "0 0 1"
                axis_rpy = "0 0 0"

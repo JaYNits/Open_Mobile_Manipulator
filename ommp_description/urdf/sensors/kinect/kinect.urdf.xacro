@@ -13,6 +13,8 @@
 
   </xacro:if>
 
+  	<!-- remove if Kinect isn't moving -->
+  	
     <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect.transmissions.xacro" />
 
 	<!-- Parameterised in part by the values in kinect_properties.urdf.xacro -->

@@ -1,11 +1,11 @@
 <?xml version='1.0'?>
 
-<robot name="lynx_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="ommp_sim" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
 
   <!-- Common design Properties-->
-  <xacro:include filename="$(find ommp_description)/urdf/robots/lynxbot/common_properties.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/common_properties.urdf.xacro" />
 
   <!-- Include Sensors macros -->
   
@@ -37,7 +37,7 @@
   <xacro:if value="$(arg sim)">
 
       <!-- General -->
-      <xacro:include filename="$(find ommp_description)/urdf/robots/lynxbot/lynx_rover.gazebo.xacro" />
+      <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/ommp_sim.gazebo.xacro" />
 
 
   </xacro:if>

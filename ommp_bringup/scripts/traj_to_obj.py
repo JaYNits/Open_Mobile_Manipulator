@@ -23,26 +23,14 @@ listener = tf.TransformListener()
 
 while not rospy.is_shutdown():
     try:
-        (trans,rot) = listener.lookupTransform('/robot_footprint', '/soap2', rospy.Time(0))
+        (trans,rot) = listener.lookupTransform('/robot_footprint', '/box_black', rospy.Time(0))
         print(trans)
         break
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
         continue
-print("hey")
-#First go to start position with open gripper
-arm_group.set_named_target("out_of_view")
-plan_arm = arm_group.plan()
-arm_group.go(wait=True)
-rospy.sleep(1)
-gripper_group.set_named_target("gripper_open") 
-plan_gripper = gripper_group.plan()
-gripper_group.go(wait=True)
-rospy.sleep(5)
 
-
-print("hey2")
 #orientation of approach of the end effector
-q = tf.transformations.quaternion_from_euler(0,1.57,0.0)
+q = tf.transformations.quaternion_from_euler(0,3.14,0.0)
 
 #Object Position
 pose_target = geometry_msgs.msg.Pose()
@@ -55,9 +43,9 @@ pose_target.position.y = trans[1]
 pose_target.position.z = trans[2] 
 
 
-x_offset_distance = -0.05#-0.1
+x_offset_distance = -0.01#-0.1
 y_offset_distance = 0.0
-z_offset_distance = 0.01#0.03
+z_offset_distance = 0.03#0.03
 
 x_offset_approach = -0.01
 y_offset_approach = 0.0
@@ -78,7 +66,7 @@ arm_group.set_pose_target(pose_target)
 plan_arm = arm_group.plan()
 arm_group.go(wait=True)
 rospy.sleep(1)
-
+'''
 #Step 2 Close in on the object and close the gripper
 
 pose_target.position.x = trans[0] + x_offset_approach
@@ -131,5 +119,5 @@ plan_arm = arm_group.plan()
 arm_group.go(wait=True)
 rospy.sleep(1)
 
-
+'''
 moveit_commander.roscpp_shutdown()

@@ -5,22 +5,22 @@
     <transmission name="joint_0_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_0">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_0">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 
     <transmission name="joint_1_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_1">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_1">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 
@@ -29,44 +29,44 @@
     <transmission name="joint_2_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_2">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_2">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 
     <transmission name="joint_3_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_3">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_3">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 
     <transmission name="joint_4_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_4">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_4">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 
     <transmission name="joint_5_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="joint_5">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="motor_joint_5">
         <mechanicalReduction>1</mechanicalReduction>
-	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </actuator>
     </transmission>
 

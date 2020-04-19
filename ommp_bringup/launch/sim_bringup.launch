@@ -7,11 +7,16 @@
   <!-- parameters -->
 
   <arg name="sim" default="true"/>
-  <arg name="world" default="box_world"/>
+
+
+  <arg name="world" default="object_rec_test"/>
   <!--arg name="world" default="simple_world"/-->
   <!--arg name="world" default="mydesigned_world"/-->
   <!--arg name="world" default="object_seg_world"/-->
   <!--arg name="world" default="object_rec_world"/-->
+
+  <arg name="robot" default="ommp_sim"/>
+
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -20,7 +25,7 @@
 
 
   <!-- send urdf to param server -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/lynxbot/lynx_rover.urdf.xacro' sim:=$(arg sim)" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/$(arg robot)/$(arg robot).urdf.xacro' sim:=$(arg sim)" />
 
   <!-- Send robot states to tf -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
@@ -51,7 +56,7 @@
   
   <!--spawn the robot in gazebo world-->
   
-  <node name="urdf_spawner_lynx_rover" pkg="gazebo_ros" type="spawn_model" respawn="false" 
+  <node name="urdf_spawner_$(arg robot)" pkg="gazebo_ros" type="spawn_model" respawn="false" 
   output="screen" args="-urdf -param robot_description -model lynx_rover -z 0.0"/>
   
   <!-- robot localization sensor fusion wheel encoders + imu -->

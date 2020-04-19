@@ -25,7 +25,7 @@ kinect_controller:
 
 
 arm_controller:
-  type: effort_controllers/JointTrajectoryController
+  type: position_controllers/JointTrajectoryController
   joints:
      - joint_0
      - joint_1
@@ -34,21 +34,18 @@ arm_controller:
      - joint_4
      - joint_5
   gains:
-      joint_0: {p: 100, i: 0.01, d: 0.1}
-      joint_1: {p: 100, i: 0.01, d: 0.1}
-      joint_2: {p: 100, i: 0.01, d: 0.1}
-      joint_3: {p: 40, i: 0.004, d: 0.1}
-      joint_4: {p: 40, i: 0.004, d: 0.1}
-      joint_5: {p: 100, i: 0.02, d: 0.1}
+      joint_0: {p: 100, i: 0.01, d: 1}
+      joint_1: {p: 100, i: 0.01, d: 1}
+      joint_2: {p: 100, i: 0.01, d: 1}
+      joint_3: {p: 100, i: 0.01, d: 1}
+      joint_4: {p: 100, i: 0.01, d: 1}
+      joint_5: {p: 100, i: 0.01, d: 1}
   constraints:
-      goal_time: 0.6
+      goal_time: 10.0
 
-      joint_0: {trajectory: 1, goal: 0.1}
-      joint_1: {trajectory: 1, goal: 0.1}
-      joint_2: {trajectory: 1, goal: 0.1}
-      joint_3: {trajectory: 1, goal: 0.1}
-      joint_4: {trajectory: 1, goal: 0.1}
-      joint_5: {trajectory: 1, goal: 0.1}
+  state_publish_rate: 50
+  action_monitor_rate: 30
+  stop_trajectory_duration: 0
 
 gripper_controller:
   type: effort_controllers/JointTrajectoryController
@@ -56,16 +53,17 @@ gripper_controller:
      - joint_finger1
      - joint_finger2
   gains:
-      joint_finger1: {p: 100, i: 10, d: 0.1}
-      joint_finger2: {p: 100, i: 10, d: 0.1}
+      joint_finger1: {p: 100, i: 1, d: 10, i_clamp: 1.0}
+      joint_finger2: {p: 100, i: 1, d: 10, i_clamp: 1.0}
   constraints:
-      goal_time: 0.6
+      goal_time: 3.0
 
-      joint_finger1: {trajectory: 1, goal: 0.01}
-      joint_finger2: {trajectory: 1, goal: 0.01}
+      joint_finger1: {goal: 0.02}
+      joint_finger2: {goal: 0.02}
 
-  stop_trajectory_duration: 0.5
-  state_publish_rate:  25
-  action_monitor_rate: 10
+  
+  state_publish_rate:  50
+  action_monitor_rate: 30
+  stop_trajectory_duration: 0
 
 
