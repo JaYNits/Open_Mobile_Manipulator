@@ -15,7 +15,7 @@
 #define I2CAdd 0x40
 HCPCA9685 HCPCA9685(I2CAdd);
 
-
+//counts outer 8403.2 in 64
 
 
 
@@ -28,7 +28,7 @@ double Setpoint_fr, Input_fr, Output_fr;
 double Setpoint_bl, Input_bl, Output_bl;
 double Setpoint_br, Input_br, Output_br;
 
-double aggKp=650, aggKi=1200, aggKd=0.25;
+double aggKp=400, aggKi=800, aggKd=0;
 
 
 PID myPID_fl(&Input_fl, &Output_fl, &Setpoint_fl, aggKp, aggKi, aggKd, DIRECT);
@@ -38,26 +38,31 @@ PID myPID_br(&Input_br, &Output_br, &Setpoint_br, aggKp, aggKi, aggKd, DIRECT);
 
 // Initialize quadrature encoder paramaters
 
-Quadrature_encoder<46,47> encoder_fright(Board::due);
-Quadrature_encoder<49,48> encoder_fleft(Board::due);
-Quadrature_encoder<42,43> encoder_bright(Board::due);
-Quadrature_encoder<44,45> encoder_bleft(Board::due);
+Quadrature_encoder<34,35> encoder_fright(Board::due);
+Quadrature_encoder<36,37> encoder_fleft(Board::due);
+Quadrature_encoder<30,31> encoder_bright(Board::due);
+Quadrature_encoder<32,33> encoder_bleft(Board::due);
 
 // Initialize pin numbers
 
-const uint8_t RF_PWM = 9;
-const uint8_t RF_BACK = 27;
-const uint8_t RF_FORW = 26;
-const uint8_t LF_BACK = 24;
-const uint8_t LF_FORW = 25;
-const uint8_t LF_PWM = 8;
+const uint8_t LF_PWM = 2;
+const uint8_t RF_PWM = 3;
+const uint8_t LB_PWM = 4;
+const uint8_t RB_PWM = 5;
 
-const uint8_t RB_PWM = 11;
-const uint8_t RB_BACK = 30;
-const uint8_t RB_FORW = 31;
-const uint8_t LB_BACK = 29;
-const uint8_t LB_FORW = 28;
-const uint8_t LB_PWM = 10;
+const uint8_t LF_BACK = 23;
+const uint8_t LF_FORW = 22;
+
+const uint8_t RF_BACK = 24;
+const uint8_t RF_FORW = 25;
+
+const uint8_t LB_BACK = 27;
+const uint8_t LB_FORW = 26;
+
+const uint8_t RB_BACK = 28;
+const uint8_t RB_FORW = 29;
+
+
 bool wtf;
 
 
@@ -69,9 +74,9 @@ ros::NodeHandle nh;
 
 
 std_msgs::Int64MultiArray enc_ticks;
-//std_msgs::Float64MultiArray vel_wheels;
+std_msgs::Float64MultiArray vel_wheels;
 ros::Publisher enc_ticks_pub("encoder_ticks", &enc_ticks);
-//ros::Publisher vel_pub("velocity_wheels", &vel_wheels);
+ros::Publisher vel_pub("velocity_wheels", &vel_wheels);
 
 
 
@@ -81,20 +86,20 @@ void activate_arm_cb(const std_msgs::Int16& act_arm){
   if(arm == 1){
 
     HCPCA9685.Sleep(false);
-    int start_link_0 = 195;
-    int start_link_1 = 27;
-    int start_link_2 = 345;
-    int start_link_3 = 225;
-    int start_link_4 = 18;
-    int start_link_5 = 210;
-    int start_gripper = 300;
+    int start_link_1 = 195;
+    int start_link_2 = 27;
+    int start_link_3 = 345;
+    int start_link_4 = 225;
+    int start_link_5 = 18;
+    int start_link_6 = 210;
+    int start_gripper = 230;
     HCPCA9685.Servo(0, start_link_1);
     HCPCA9685.Servo(1, start_link_2);
-    HCPCA9685.Servo(7, start_link_4);
-    HCPCA9685.Servo(2, start_link_0);
-    HCPCA9685.Servo(3, start_link_3);
-    HCPCA9685.Servo(9, start_link_5);
-    HCPCA9685.Servo(10, start_gripper);
+    HCPCA9685.Servo(2, start_link_3);
+    HCPCA9685.Servo(3, start_link_4);
+    HCPCA9685.Servo(4, start_link_5);
+    HCPCA9685.Servo(5, start_link_6);
+    HCPCA9685.Servo(6, start_gripper);
     }
   else{
     HCPCA9685.Sleep(true);
@@ -105,21 +110,16 @@ void activate_arm_cb(const std_msgs::Int16& act_arm){
 
 void servo_cb(const std_msgs::Int16MultiArray& cmd_msg){
 
-  HCPCA9685.Servo(2, cmd_msg.data[0]);
-  HCPCA9685.Servo(0, cmd_msg.data[1]);
-  HCPCA9685.Servo(1, cmd_msg.data[2]);
+  HCPCA9685.Servo(0, cmd_msg.data[0]);
+  HCPCA9685.Servo(1, cmd_msg.data[1]);
+  HCPCA9685.Servo(2, cmd_msg.data[2]);
   HCPCA9685.Servo(3, cmd_msg.data[3]);
-  HCPCA9685.Servo(7, cmd_msg.data[4]);
-  HCPCA9685.Servo(9, cmd_msg.data[5]);
+  HCPCA9685.Servo(4, cmd_msg.data[4]);
+  HCPCA9685.Servo(5, cmd_msg.data[5]);
+  HCPCA9685.Servo(6, cmd_msg.data[6]);
   
   }
-//gripper callback
 
-void gripper_cb(const std_msgs::Int16& cmd_msg){
-
-  HCPCA9685.Servo(10, cmd_msg.data);
-  
-  }
 
 //set pid callback
 
@@ -147,7 +147,7 @@ void onTwist(const std_msgs::Float32MultiArray& msg)
   Setpoint_fr = right_speed;
   Setpoint_bl = left_speed;
   Setpoint_br = right_speed;
-  if(Setpoint_fl==0 && Setpoint_fr==0 && Setpoint_bl==0 &&Setpoint_br==0){
+  if(Setpoint_fl==0 && Setpoint_fr==0 && Setpoint_bl==0 && Setpoint_br==0){
     wtf=true;
     }
   else{
@@ -160,7 +160,7 @@ void onTwist(const std_msgs::Float32MultiArray& msg)
 
 ros::Subscriber<std_msgs::Float32MultiArray> cmd_sub("set_vel", &onTwist);
 ros::Subscriber<std_msgs::Int16MultiArray> servo_sub("servo_cmd", &servo_cb);
-ros::Subscriber<std_msgs::Int16> gripper_sub("gripper_cmd", &gripper_cb);
+
 
 ros::Subscriber<std_msgs::Int16> activate_arm_sub("activate_arm", &activate_arm_cb);
 ros::Subscriber<std_msgs::Int16MultiArray> pid_sub("pid_set", &onPid_cb);
@@ -216,13 +216,13 @@ void setpins()
 // And if an encoder has negative value we reverse it.
 
 void fix_encoder_ori_on_start(){
-  int x=230;
+  int x=200;
   analogWrite(RF_PWM, x);
   analogWrite(LF_PWM, x);
   analogWrite(RB_PWM, x);  
   analogWrite(LB_PWM, x); 
   
-  delay(400);
+  delay(140);
 
   analogWrite(RF_PWM, 0);
   analogWrite(LF_PWM, 0);
@@ -314,50 +314,50 @@ void setup() {
   enc_ticks.data_length = 4;
   nh.advertise(enc_ticks_pub);
   // vel array initialization
-  /*char dim1_label[] = "velocity_wheels";
+  char dim1_label[] = "velocity_wheels";
   vel_wheels.layout.dim = (std_msgs::MultiArrayDimension *) malloc(sizeof(std_msgs::MultiArrayDimension) * 2);
   vel_wheels.layout.dim[0].label = dim1_label;
   vel_wheels.layout.dim[0].size = 4;
   vel_wheels.layout.dim[0].stride = 1*4;
   vel_wheels.data = (float *)malloc(sizeof(float)*4);
   vel_wheels.layout.dim_length = 0;
-  vel_wheels.data_length = 4;*/
+  vel_wheels.data_length = 4;
   nh.advertise(enc_ticks_pub);
-  //nh.advertise(vel_pub);
+  nh.advertise(vel_pub);
   nh.subscribe(cmd_sub);
   nh.subscribe(servo_sub);
   nh.subscribe(pid_sub);
-  nh.subscribe(gripper_sub);
+
   nh.subscribe(activate_arm_sub);
   
 }
 
 // Initialize starting loop paramaters for calculating velocity and time
 
-unsigned long prev = 0;
-int old_ct1=0;
-int old_ct2=0;
-int old_ct3=0;
-int old_ct4=0;
+long prev = 0;
+long old_ct1=0;
+long old_ct2=0;
+long old_ct3=0;
+long old_ct4=0;
 
 //float ticks_per_meter = 33000.1;
 
 void loop() {
   
   // count encoder ticks
-  int ct1 = encoder_fleft.count();
-  int ct2 = encoder_fright.count();
-  int ct3 = encoder_bleft.count();
-  int ct4 = encoder_bright.count();
+  long ct1 = encoder_fleft.count();
+  long ct2 = encoder_fright.count();
+  long ct3 = encoder_bleft.count();
+  long ct4 = encoder_bright.count();
   // for some reason if i omit this it does not work properly
-  if (ct1!=-1){
-    enc_ticks.data[0] = ct1;}
-  if (ct2!=-1){
-    enc_ticks.data[1] = ct2;}
-  if (ct3!=-1){
-    enc_ticks.data[2] = ct3;}
-  if (ct4!=-1){
-    enc_ticks.data[3] = ct4;}
+  //if (ct1!=-1){
+  //  enc_ticks.data[0] = ct1;}
+  //if (ct2!=-1){
+  //  enc_ticks.data[1] = ct2;}
+  //if (ct3!=-1){
+  //  enc_ticks.data[2] = ct3;}
+  //if (ct4!=-1){
+  //  enc_ticks.data[3] = ct4;}
     
   enc_ticks.data[0]=ct1;
   enc_ticks.data[1]=ct2;
@@ -369,16 +369,16 @@ void loop() {
 
  // calculate time and current velocity
   
-  unsigned long now = millis();
-  Input_fl = (float(ct1 - old_ct1) / 33000.1) / ((now - prev) / 1000.0);
-  Input_fr = (float(ct2 - old_ct2) / 33000.1) / ((now - prev) / 1000.0);
-  Input_bl = (float(ct3 - old_ct3) / 33000.1) / ((now - prev) / 1000.0);
-  Input_br = (float(ct4 - old_ct4) / 33000.1) / ((now - prev) / 1000.0);
-  //vel_wheels.data[0] = Input_fl;
-  //vel_wheels.data[1] = Input_fr;
-  //vel_wheels.data[2] = Input_bl;
-  //vel_wheels.data[3] = Input_br;
-  //vel_pub.publish(&vel_wheels);
+  long now = millis();
+  Input_fl = (float(ct1 - old_ct1) / 26748.) / ((now - prev) / 1000.0);
+  Input_fr = (float(ct2 - old_ct2) / 26748.) / ((now - prev) / 1000.0);
+  Input_bl = (float(ct3 - old_ct3) / 26748.) / ((now - prev) / 1000.0);
+  Input_br = (float(ct4 - old_ct4) / 26748.) / ((now - prev) / 1000.0);
+  vel_wheels.data[0] = Input_fl;
+  vel_wheels.data[1] = Input_fr;
+  vel_wheels.data[2] = Input_bl;
+  vel_wheels.data[3] = Input_br;
+  vel_pub.publish(&vel_wheels);
   // Compute  Pid
   myPID_fl.Compute();
   myPID_fr.Compute();

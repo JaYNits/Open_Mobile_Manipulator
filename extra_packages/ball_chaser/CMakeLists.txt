@@ -1,26 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ommp_bringup)
+project(ball_chaser)
 
+## Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  geometry_msgs
-  move_base_msgs
-  nav_msgs
-  robot_state_publisher
+  message_generation
   roscpp
-  rospy
   std_msgs
-  tf
-  control_msgs
-  sensor_msgs
-  rtabmap_ros
-  amcl
-  map_server
-  move_base
-  robot_localization
-
-
-
 )
 
 ## System dependencies are found with CMake's conventions
@@ -64,11 +54,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+   FILES
+   DriveToTarget.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -78,10 +67,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   move_base_msgs#   nav_msgs#   std_msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -98,10 +87,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-#generate_dynamic_reconfigure_options(
-#   cfg/lidar_tf.cfg
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
 #   cfg/DynReconf2.cfg
-#)
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -114,8 +103,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES lynxbot_bringup
-#  CATKIN_DEPENDS actionlib geometry_msgs move_base_msgs nav_msgs robot_pose_ekf robot_state_publisher roscpp rospy std_msgs tf
+#  LIBRARIES go_chase
+#  CATKIN_DEPENDS message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -126,13 +115,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/lynxbot_bringup.cpp
+#   src/${PROJECT_NAME}/go_chase.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -143,46 +132,75 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-
-add_executable(${PROJECT_NAME}_Pub_to_Arduino_Class src/pub_to_arduino_class.cpp)
-add_executable(${PROJECT_NAME}_Cmd_Vel_to_Arduino src/cmd_vel_mux.cpp)
-add_executable(${PROJECT_NAME}_Diff_TF src/diff_tf.cpp)
-#add_executable(${PROJECT_NAME}_Dynamic_TF src/dynamic_tf.cpp)
-
-#add_executable(Arm_Driver src/pub_to_arduino.cpp)
+add_executable(drive_bot src/drive_bot.cpp)
+add_executable(process_image src/process_image.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-
-set_target_properties(${PROJECT_NAME}_Pub_to_Arduino_Class PROPERTIES OUTPUT_NAME Pub_to_Arduino_Class PREFIX "")
-set_target_properties(${PROJECT_NAME}_Cmd_Vel_to_Arduino PROPERTIES OUTPUT_NAME Cmd_Vel_to_Arduino PREFIX "")
-set_target_properties(${PROJECT_NAME}_Diff_TF PROPERTIES OUTPUT_NAME Diff_TF PREFIX "")
-
-
+# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-
-add_dependencies(${PROJECT_NAME}_Pub_to_Arduino_Class ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(${PROJECT_NAME}_Cmd_Vel_to_Arduino ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(${PROJECT_NAME}_Diff_TF ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
+add_dependencies(drive_bot ball_chaser_generate_messages_cpp)
+add_dependencies(process_image ball_chaser_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(drive_bot ${catkin_LIBRARIES})
+target_link_libraries(process_image ${catkin_LIBRARIES})
 
-target_link_libraries(${PROJECT_NAME}_Pub_to_Arduino_Class
-   ${catkin_LIBRARIES}
- )
-target_link_libraries(${PROJECT_NAME}_Cmd_Vel_to_Arduino
-   ${catkin_LIBRARIES}
- )
-target_link_libraries(${PROJECT_NAME}_Diff_TF
-   ${catkin_LIBRARIES}
- )
- 
+#############
+## Install ##
+#############
 
+# all install targets should use catkin DESTINATION variables
+# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
+## Mark executable scripts (Python etc.) for installation
+## in contrast to setup.py, you can choose the destination
+# install(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
+## Mark executables for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
+# install(TARGETS ${PROJECT_NAME}_node
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
+## Mark libraries for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
+# install(TARGETS ${PROJECT_NAME}
+#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+# )
+
+## Mark cpp header files for installation
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h"
+#   PATTERN ".svn" EXCLUDE
+# )
+
+## Mark other files for installation (e.g. launch and bag files, etc.)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
+
+#############
+## Testing ##
+#############
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_go_chase.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+
+## Add folders to be run by python nosetests
+# catkin_add_nosetests(test)

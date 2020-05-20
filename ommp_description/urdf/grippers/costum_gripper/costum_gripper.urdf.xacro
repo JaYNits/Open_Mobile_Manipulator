@@ -4,15 +4,17 @@
 
  <xacro:include filename="$(find ommp_description)/urdf/macros/link_joint_macro.urdf.xacro" />
 
- <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.transmissions.xacro" />
+ 
 
   <xacro:if value="$(arg sim)">
 
       <!-- Gazebo gripper -->
       <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.gazebo.xacro" />
-  
+      <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper_effort.transmissions.xacro" />
   </xacro:if>
-
+  <xacro:unless value="$(arg sim)">
+      <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper_position.transmissions.xacro" />
+  </xacro:unless>
 <xacro:property name="m_ee" value="0.1" />
 <xacro:property name="m_f1" value="0.01" />
 <xacro:property name="m_f2" value="0.01" />

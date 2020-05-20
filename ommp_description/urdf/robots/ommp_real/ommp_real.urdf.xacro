@@ -1,11 +1,11 @@
 <?xml version='1.0'?>
 
-<robot name="ommp_sim" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="ommp_real" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-
+  <arg name="sim" default="true"/>
 
   <!-- Common design Properties-->
-  <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/common_properties.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_real/common_properties.urdf.xacro" />
 
   <!-- Include Sensors macros -->
   
@@ -13,9 +13,9 @@
     <!--ydlidar -->
   <xacro:include filename="$(find ommp_description)/urdf/sensors/ydlidar/ydlidar.urdf.xacro" />
     <!--imu -->
-  <xacro:include filename="$(find ommp_description)/urdf/sensors/imu/imu.urdf.xacro" />
+  <!--xacro:include filename="$(find ommp_description)/urdf/sensors/imu/imu.urdf.xacro" /-->
     <!-- kinect -->
-  <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect_sim.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect.urdf.xacro" />
 
   <!-- Include Bases-->
   <xacro:include filename="$(find ommp_description)/urdf/bases/lynxbot_base/lynxbot_bases.urdf.xacro" />
@@ -33,33 +33,25 @@
   <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.urdf.xacro" />
 
 
-  
-  <xacro:if value="$(arg sim)">
-
-      <!-- General -->
-      <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/ommp_sim.gazebo.xacro" />
-
-
-  </xacro:if>
 
 
   <!-- All the bases of the robot -->
   <xacro:lynxbot_bases />
   
   <!-- Instanciate the 4 wheels of the robot -->
-  <xacro:costum_wheel prefix="front_left" parent="chassis" gz="true">
+  <xacro:costum_wheel prefix="front_left" parent="chassis" gz="false">
     <origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:costum_wheel>
 
-  <xacro:costum_wheel prefix="front_right" parent="chassis" gz="true">
+  <xacro:costum_wheel prefix="front_right" parent="chassis" gz="false">
     <origin xyz="${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:costum_wheel>
 
-  <xacro:costum_wheel prefix="back_left" parent="chassis" gz="true">
+  <xacro:costum_wheel prefix="back_left" parent="chassis" gz="false">
     <origin xyz="-${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:costum_wheel>
 
-  <xacro:costum_wheel prefix="back_right" parent="chassis" gz="true">
+  <xacro:costum_wheel prefix="back_right" parent="chassis" gz="false">
     <origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:costum_wheel>
 
@@ -70,7 +62,7 @@
   
   <xacro:sensor_laser parent="chassis" />
 
-  <xacro:imu_sensor parent="chassis" />
+  <!--xacro:imu_sensor parent="chassis" /-->
   
   <!-- connect arm -->
   <xacro:costum_arm parent="${arm_parent}" />

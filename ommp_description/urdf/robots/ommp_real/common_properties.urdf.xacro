@@ -2,9 +2,11 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   
+
+
   <!-- Include or Not Gazebo Files-->
-  <xacro:arg name="sim" default="true"/>
-  <xacro:arg name="gaz" default="true"/>
+  <xacro:arg name="sim" default="false"/>
+  <xacro:arg name="gaz" default="false"/>
   
   <!-- PI Value -->
   <xacro:property name="M_PI" value="3.141592653" />
@@ -12,47 +14,47 @@
 
   <!--chassis-->
   <xacro:property name="base_size">
-    <box size = "0.25 0.2 0.06"/>
+    <box size = "0.318 0.2 0.008"/>
   </xacro:property>
 
   <!-- wheels-->
 
   <xacro:property name="wheel_size">
-    <cylinder length = "0.065" radius="0.055"/>
+    <cylinder length = "0.06" radius="0.05"/>
   </xacro:property>
 
-  <xacro:property name="wheel_offset_x" value="0.0975" />
-  <xacro:property name="wheel_offset_y" value="0.14" />
-  <xacro:property name="wheel_offset_z" value="-0.015" />
+  <xacro:property name="wheel_offset_x" value="0.14" />
+  <xacro:property name="wheel_offset_y" value="0.135" /> <!--+0.005-->
+  <xacro:property name="wheel_offset_z" value="-0.019" />
 
 
   <!--Robot bases-->
 
   <xacro:property name="upper_base_size">
-    <box size = "0.3 0.15 0.02"/>
+    <box size = "0.318 0.2 0.008"/>
   </xacro:property>
 
   <xacro:property name="upper_base_joint_origin">
-    <origin xyz="0.05 0.0 0.1275" rpy="0 0 0" />
+    <origin xyz="0.0 0.0 0.108" rpy="0 0 0" />
   </xacro:property>
 
   <xacro:property name="kinect_base1_size">
-    <box size = "0.01 0.03 0.38"/>
-  </xacro:property>
-
-  <xacro:property name="kinect_base2_size">
-    <box size = "0.07 0.07 0.02"/>
+    <box size = "0.01 0.03 0.4"/>
   </xacro:property>
 
   <xacro:property name="kinect_base1_joint_origin">
-    <origin xyz="-0.14 0.0 0.2" rpy="0 0 0" />
+    <origin xyz="-0.154 0.0 0.204" rpy="0 0 0" />
+  </xacro:property>
+
+  <xacro:property name="kinect_base2_size">
+    <box size = "0.1 0.07 0.008"/>
   </xacro:property>
 
   <xacro:property name="kinect_base2_joint_origin">
-    <origin xyz="0.035 0.0 0.19" rpy="0 0 0" />
+    <origin xyz="0.055 0.0 0.196" rpy="0 0 0" />
   </xacro:property>
   <!-- imu-->
-
+  <!--
   <xacro:property name="imu_parent" value="chassis" />
 
   <xacro:property name="imu_size">
@@ -62,13 +64,13 @@
   <xacro:property name="imu_joint_origin">
     <origin xyz="-0.1 0.0 0.0575" rpy="0 0 0" />
   </xacro:property>
-
+  -->
 
   <!-- lidar base-->
   <xacro:property name="lidar_parent" value="chassis" />
 
   <xacro:property name="lidar_joint_origin">
-    <origin xyz="0.0 0.0 0.0575" rpy="0 0 0" />
+    <origin xyz="0.026 0.0 0.047" rpy="0 0 0" /> <!-- height 0.67 or lower --> <!-- exprimental start base 15.5 -> -0.4 + 3-->
   </xacro:property>
 
 
@@ -76,16 +78,15 @@
 
   <xacro:property name="kinect_parent" value="kinect_base2" />
 
-  <xacro:property name="cam_px" value="0.03" />
+  <xacro:property name="cam_px" value="0.02" />
   <xacro:property name="cam_py" value="0.0" />
-  <xacro:property name="cam_pz" value="0.055" />
+  <xacro:property name="cam_pz" value="0.039" />
   <xacro:property name="cam_or" value="0.0" />
   <xacro:property name="cam_op" value="0.0" />
   <xacro:property name="cam_oy" value="0.0" />
-
   <!-- Arm -->
   <xacro:property name="arm_joint_origin">
-    <origin xyz="0.079 0.0 0.02" rpy="0 0 0" />
+    <origin xyz="0.119 0.0 0.024" rpy="0 0 0" />
   </xacro:property>
 
   <xacro:property name="arm_parent" value="upper_base" />

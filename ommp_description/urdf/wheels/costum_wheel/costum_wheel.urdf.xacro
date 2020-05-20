@@ -22,6 +22,9 @@
         <geometry>
           <xacro:insert_block name="wheel_size" />
         </geometry>
+        <material name="blue">
+          <color rgba="1 0 0 1"/>
+        </material>
       </visual>
 
       <collision>

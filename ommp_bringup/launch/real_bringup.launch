@@ -3,25 +3,30 @@
 <launch>
 
   <arg name="sim" default="false"/>
+    <arg name="robot" default="ommp_real"/>
 
   <!-- send urdf to param server -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/lynxbot_real/lynx_rover_real.urdf.xacro' sim:=$(arg sim)" />
-
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/$(arg robot)/$(arg robot).urdf.xacro' sim:=$(arg sim)" />
+  
   <!-- Send robot states to tf -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-    <param name="publish_frequency" type="double" value="5.0" />
+    <param name="publish_frequency" type="double" value="15.0" />
+  </node>
 
   <!-- load controllers to param server-->
-  <rosparam file="$(find ommp_bringup)/config/control/my_robot_control.yaml" command="load"/>
-  <!--rosparam file="$(find ommp_bringup)/config/control/diff_control.yaml" command="load"/-->
-  
-  <!-- start hardware interface for the arm -->
-  <node name="my_arm_hardware_interface" pkg="my_hardware_interface" type="myrobot_hw_main"
-          output="screen" launch-prefix=""/>
+  <rosparam file="$(find ommp_bringup)/config/control/joint_state_controller.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/arm_control.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/gripper_position_control.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/kinect_control.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/hardware_interface_settings.yaml" command="load"/>
   
   <!-- start controller manager -->
   <node name="controller_spawner_joint_state" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="joint_state_controller arm_controller gripper_controller"/>
+    output="screen" args="joint_state_controller arm_controller gripper_controller kinect_controller"/>
+
+  <!-- start hardware interface for the arm -->
+  <node name="my_arm_hardware_interface" pkg="my_hardware_interface" type="myrobot_hw_main"
+          output="screen" launch-prefix=""/>
 
   <!-- Transforms Joint_states to appropiate servo commmands for rosserial -->
   <!-- Arm is a clone of joint_States - perfect execution -->
@@ -38,9 +43,9 @@
 
 
   <!-- Start the LIDAR driver -->
-  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
+  <!--node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
     <rosparam file="$(find ommp_bringup)/config/start/ydlidar_params.yaml" command="load" />
-  </node>
+  </node-->
 
 
   <!-- From encoders array values calculate odometry -->
@@ -49,9 +54,9 @@
   </node>
   
   <!-- Start rosserial Arduino node -->
-  <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+  <!--node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
       <rosparam file="$(find ommp_bringup)/config/start/serial_params.yaml" command="load" />
-  </node>
+  </node-->
 
   <!-- Comment : to start Kinect driver I use docker run the following command-->
   <!-- sudo docker run net=host privileged kinect_image:1.0 -->
