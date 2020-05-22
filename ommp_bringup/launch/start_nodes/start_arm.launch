@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
+  output="screen"/>
+    <node name="Adafruit_servo" pkg="ommp_bringup" type="to_arm.py" respawn="false" 
+  output="screen"/>
+</launch>

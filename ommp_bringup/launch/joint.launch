@@ -19,23 +19,14 @@
   <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/$(arg robot)/$(arg robot).urdf.xacro' sim:=$(arg sim)" />
 
   <!-- Send robot states to tf -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" respawn="false" output="screen">
+      <param name="use_gui" value="true" />
+    </node>
+
+  
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
       <param name="publish_frequency" type="double" value="15.0" />
     </node>
-
-
-  <!-- load controllers to param server-->
-  <rosparam file="$(find ommp_bringup)/config/control/joint_state_controller.yaml" command="load"/>
-  <rosparam file="$(find ommp_bringup)/config/control/arm_control.yaml" command="load"/>
-  <rosparam file="$(find ommp_bringup)/config/control/gripper_effort_control.yaml" command="load"/>
-  <rosparam file="$(find ommp_bringup)/config/control/kinect_control_sim.yaml" command="load"/>
-  <!--rosparam file="$(find ommp_bringup)/config/control/hardware_interface_settings.yaml" command="load"/-->
-  <rosparam file="$(find ommp_bringup)/config/control/diff_control.yaml" command="load"/>
-
-  <!-- launch the controller manager for ros control -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="joint_state_controller diff_velocity_controller arm_controller gripper_controller kinect_controller"/>
-
 
   <!-- launch the gazebo world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -52,12 +43,6 @@
   <node name="urdf_spawner_$(arg robot)" pkg="gazebo_ros" type="spawn_model" respawn="false" 
   output="screen" args="-urdf -param robot_description -model ommp_sim -z 0.0"/>
   
-  <!-- robot localization sensor fusion wheel encoders + imu -->
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
-    <rosparam file="$(find ommp_bringup)/config/navigation/ekf_localization.yaml" command="load" />
-    <remap from="odometry/filtered" to="odom_combined"/>
-  </node>
+
 
 </launch>
-
-
