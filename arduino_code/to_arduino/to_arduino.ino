@@ -298,7 +298,7 @@ void setup() {
 
   
   HCPCA9685.Init(SERVO_MODE);
-
+  HCPCA9685.Sleep(true);
   // ros node setup
   
   nh.initNode();
@@ -312,7 +312,6 @@ void setup() {
   enc_ticks.data = (long long int *)malloc(sizeof(long long int)*4);
   enc_ticks.layout.dim_length = 0;
   enc_ticks.data_length = 4;
-  nh.advertise(enc_ticks_pub);
   // vel array initialization
   char dim1_label[] = "velocity_wheels";
   vel_wheels.layout.dim = (std_msgs::MultiArrayDimension *) malloc(sizeof(std_msgs::MultiArrayDimension) * 2);
@@ -350,14 +349,14 @@ void loop() {
   long ct3 = encoder_bleft.count();
   long ct4 = encoder_bright.count();
   // for some reason if i omit this it does not work properly
-  //if (ct1!=-1){
-  //  enc_ticks.data[0] = ct1;}
-  //if (ct2!=-1){
-  //  enc_ticks.data[1] = ct2;}
-  //if (ct3!=-1){
-  //  enc_ticks.data[2] = ct3;}
-  //if (ct4!=-1){
-  //  enc_ticks.data[3] = ct4;}
+  if (ct1!=-1){
+    enc_ticks.data[0] = ct1;}
+  if (ct2!=-1){
+    enc_ticks.data[1] = ct2;}
+  if (ct3!=-1){
+    enc_ticks.data[2] = ct3;}
+  if (ct4!=-1){
+    enc_ticks.data[3] = ct4;}
     
   enc_ticks.data[0]=ct1;
   enc_ticks.data[1]=ct2;

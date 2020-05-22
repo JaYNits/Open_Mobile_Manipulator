@@ -84,11 +84,11 @@ Odometry_calc::Odometry_calc(){
 
 	ROS_INFO("Started odometry computing node");
 
-	wheel_sub = n.subscribe("/encoder_ticks",10, &Odometry_calc::encoderCb, this);
+	wheel_sub = n.subscribe("/encoder_ticks",30, &Odometry_calc::encoderCb, this);
 
 
 
-  	odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);   
+  	odom_pub = n.advertise<nav_msgs::Odometry>("odom", 30);   
   	
 
 
@@ -115,9 +115,9 @@ void Odometry_calc::init_variables()
 
 	rate = 30;
 
-	ticks_meter = 33000;
+	ticks_meter = 26748.21;
 
-	base_width = 0.39;
+	base_width = 0.3;
 
 	
 	
@@ -195,11 +195,11 @@ void Odometry_calc::get_node_params(){
 
 	ROS_INFO_STREAM("Encoder Low Wrap"<< encoder_low_wrap);
 	ROS_INFO_STREAM("Encoder High Wrap" << encoder_high_wrap);
-
+*/
 	ROS_INFO_STREAM("ticks meter" << ticks_meter);
 	ROS_INFO_STREAM("base width" << base_width);
 
-*/
+
 
 }
 //Spin function
