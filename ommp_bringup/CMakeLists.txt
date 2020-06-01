@@ -147,6 +147,8 @@ include_directories(
 add_executable(${PROJECT_NAME}_Pub_to_Arduino_Class src/pub_to_arduino_class.cpp)
 add_executable(${PROJECT_NAME}_Cmd_Vel_to_Arduino src/cmd_vel_mux.cpp)
 add_executable(${PROJECT_NAME}_Diff_TF src/diff_tf.cpp)
+
+add_executable(${PROJECT_NAME}_Camera_Relay src/camera_relay.cpp)
 #add_executable(${PROJECT_NAME}_Dynamic_TF src/dynamic_tf.cpp)
 
 #add_executable(Arm_Driver src/pub_to_arduino.cpp)
@@ -160,6 +162,7 @@ set_target_properties(${PROJECT_NAME}_Pub_to_Arduino_Class PROPERTIES OUTPUT_NAM
 set_target_properties(${PROJECT_NAME}_Cmd_Vel_to_Arduino PROPERTIES OUTPUT_NAME Cmd_Vel_to_Arduino PREFIX "")
 set_target_properties(${PROJECT_NAME}_Diff_TF PROPERTIES OUTPUT_NAME Diff_TF PREFIX "")
 
+set_target_properties(${PROJECT_NAME}_Camera_Relay PROPERTIES OUTPUT_NAME Camera_Relay PREFIX "")
 
 
 ## Add cmake target dependencies of the executable
@@ -169,6 +172,7 @@ add_dependencies(${PROJECT_NAME}_Pub_to_Arduino_Class ${${PROJECT_NAME}_EXPORTED
 add_dependencies(${PROJECT_NAME}_Cmd_Vel_to_Arduino ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_Diff_TF ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_dependencies(${PROJECT_NAME}_Camera_Relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 
@@ -182,7 +186,9 @@ target_link_libraries(${PROJECT_NAME}_Diff_TF
    ${catkin_LIBRARIES}
  )
  
-
+ target_link_libraries(${PROJECT_NAME}_Camera_Relay
+ ${catkin_LIBRARIES}
+)
 
 
 

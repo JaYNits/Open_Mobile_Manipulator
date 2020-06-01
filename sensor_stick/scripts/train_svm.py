@@ -69,7 +69,7 @@ kf = model_selection.KFold(#len(X_train),
                             n_splits=5,
                             shuffle=True,
                             random_state=1)
-
+'''
 # Perform cross-validation
 scores = model_selection.cross_val_score(cv=kf,
                                          estimator=clf,
@@ -93,7 +93,7 @@ print('accuracy score: '+str(accuracy_score))
 confusion_matrix = metrics.confusion_matrix(y_train, predictions)
 
 class_names = encoder.classes_.tolist()
-
+'''
 
 #Train the classifier
 clf.fit(X=X_train, y=y_train)
@@ -102,7 +102,7 @@ model = {'classifier': clf, 'classes': encoder.classes_, 'scaler': X_scaler}
 
 # Save classifier to disk
 pickle.dump(model, open('model.sav', 'wb'))
-
+'''
 # Plot non-normalized confusion matrix
 plt.figure()
 plot_confusion_matrix(confusion_matrix, classes=encoder.classes_,
@@ -114,3 +114,4 @@ plot_confusion_matrix(confusion_matrix, classes=encoder.classes_, normalize=True
                       title='Normalized confusion matrix')
 
 plt.show()
+'''

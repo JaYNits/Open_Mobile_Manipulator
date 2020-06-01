@@ -82,7 +82,7 @@
   <xacro:property name="cam_py" value="0.0" />
   <xacro:property name="cam_pz" value="0.039" />
   <xacro:property name="cam_or" value="0.0" />
-  <xacro:property name="cam_op" value="0.0" />
+  <xacro:property name="cam_op" value="0.54" />
   <xacro:property name="cam_oy" value="0.0" />
   <!-- Arm -->
   <xacro:property name="arm_joint_origin">

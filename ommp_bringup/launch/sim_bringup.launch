@@ -6,7 +6,7 @@
 
   <arg name="sim" default="true"/>
   <!--arg name="world" default="simple_world"/-->
-  <arg name="world" default="empty_world"/>
+  <arg name="world" default="my_world"/>
   <arg name="robot" default="ommp_sim"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>

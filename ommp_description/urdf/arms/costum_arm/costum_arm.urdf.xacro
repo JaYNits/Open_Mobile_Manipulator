@@ -82,8 +82,8 @@
                origin_rpy = "0 0 0"
                axis_xyz = "0 1 0"
                axis_rpy = "0 0 0"
-	       lower_limit = "-0.8"
-               upper_limit = "2"/>
+	       lower_limit = "-1"
+               upper_limit = "1.57"/>
 
 
   <xacro:arm_link link_name="link_2" length="0.142" radius="0.01"
@@ -100,8 +100,8 @@
                origin_rpy = "0 0 0"
                axis_xyz = "0 1 0"
                axis_rpy = "0 0 0"
-               lower_limit = "0.0"
-               upper_limit = "1.57"/>
+               lower_limit = "1.05"
+               upper_limit = "2.09"/>
 
 
   <xacro:arm_link link_name="link_3" length="0.02" radius="0.01"

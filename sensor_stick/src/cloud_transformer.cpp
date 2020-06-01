@@ -30,7 +30,7 @@ public:
     : nh_(nh)
   {
     // Define Publishers and Subscribers here
-    pcl_sub_ = nh_.subscribe("/camera/depth_registered/points", 1, &CloudTransformer::pclCallback, this);
+    pcl_sub_ = nh_.subscribe("/my_camera/depth_registered/points", 1, &CloudTransformer::pclCallback, this);
     pcl_pub_ = nh_.advertise<sensor_msgs::PointCloud2>("/sensor_stick/point_cloud", 1);
 
     buffer_.reset(new sensor_msgs::PointCloud2);

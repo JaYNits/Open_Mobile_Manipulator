@@ -27,20 +27,22 @@ def pcl_callback(pcl_msg):
     # Convert ROS msg to PCL data
 
     PCL_data = ros_to_pcl(pcl_msg)
+    cloud_filtered = PCL_data
     
     # Voxel Grid Downsampling filter
     # Create a VoxelGrid filter object for our input point cloud
     vox = PCL_data.make_voxel_grid_filter()
 
     # Choose a voxel (also known as leaf) size
-    LEAF_SIZE = 0.005   
+    LEAF_SIZE = 0.005
     # Set the voxel (or leaf) size  
     vox.set_leaf_size(LEAF_SIZE, LEAF_SIZE, LEAF_SIZE)
     # Call the filter function to obtain the resultant downsampled point cloud
     cloud_filtered = vox.filter()
-
+    
     # PassThrough filter
     ################################
+    #cloud_crop = cloud_filtered
     
     # Z axis
     # Create a PassThrough filter object.
@@ -49,10 +51,34 @@ def pcl_callback(pcl_msg):
     filter_axis = 'z'
     passthrough.set_filter_field_name(filter_axis)
     axis_min = 0.0
-    axis_max = 1.7
+    axis_max = 1.5
     passthrough.set_filter_limits(axis_min, axis_max)
     # Finally use the filter function to obtain the resultant point cloud. 
     cloud_filtered = passthrough.filter()
+
+    
+    # X axis
+
+    filter_axis = 'x'
+    passthrough.set_filter_field_name(filter_axis)
+    axis_min = -0.4
+    axis_max = 0.4
+    passthrough.set_filter_limits(axis_min, axis_max)
+    # Finally use the filter function to obtain the resultant point cloud. 
+    cloud_filtered = passthrough.filter()
+    
+    # Y axis
+
+    filter_axis = 'y'
+    passthrough.set_filter_field_name(filter_axis)
+    axis_min = 0.05
+    axis_max = 0.5
+    passthrough.set_filter_limits(axis_min, axis_max)
+    # Finally use the filter function to obtain the resultant point cloud. 
+    cloud_filtered = passthrough.filter()
+    
+    cloud_crop = cloud_filtered
+
 
     # RANSAC plane segmentation
     ################################
@@ -70,11 +96,11 @@ def pcl_callback(pcl_msg):
         if i==0:
             # Extract inliers pcd for table
             cloud_table = cloud_filtered.extract(inliers, negative=False)
+            cloud_filtered = cloud_filtered.extract(inliers, negative=True)
         if i==1:
             cloud_table1 = cloud_filtered.extract(inliers, negative=False)
-        #if i==2:
-        #    cloud_table2 = cloud_filtered.extract(inliers, negative=False)
-        cloud_filtered = cloud_filtered.extract(inliers, negative=True)
+
+            
 
     cloud_objects = cloud_filtered
 
@@ -89,8 +115,8 @@ def pcl_callback(pcl_msg):
     # as well as minimum and maximum cluster size (in points)
     # NOTE: These are poor choices of clustering parameters
     # Your task is to experiment and find values that work for segmenting objects.
-    ec.set_ClusterTolerance(0.02)
-    ec.set_MinClusterSize(10)
+    ec.set_ClusterTolerance(0.012)
+    ec.set_MinClusterSize(300)
     ec.set_MaxClusterSize(30000)
     
     # Search the k-d tree for clusters
@@ -125,7 +151,8 @@ def pcl_callback(pcl_msg):
     ros_cloud_table1   = pcl_to_ros(cloud_table1)
     #ros_cloud_table2   = pcl_to_ros(cloud_table2)
     ros_cluster_cloud = pcl_to_ros(cluster_cloud)
-
+    
+    ros_crop_cloud = pcl_to_ros(cloud_crop)
     # Publish ROS messages
     ################################
     pcl_objects_pub.publish(ros_cloud_objects)
@@ -133,7 +160,7 @@ def pcl_callback(pcl_msg):
     pcl_table1_pub.publish(ros_cloud_table1)
     #pcl_table2_pub.publish(ros_cloud_table2)
     pcl_cluster_pub.publish(ros_cluster_cloud)
-
+    pcl_crop_pub.publish(ros_crop_cloud)
     # Exercise-3: 
     # Classify the clusters!
     ################################
@@ -244,6 +271,7 @@ if __name__ == '__main__':
     ################################
     #pcl_test_pub      = rospy.Publisher("/pcl_test"     , PointCloud2,          queue_size=1)
     pcl_objects_pub      = rospy.Publisher("/pcl_objects"     , PointCloud2,          queue_size=1)
+    pcl_crop_pub      = rospy.Publisher("/pcl_crop"     , PointCloud2,          queue_size=1)
     pcl_table_pub        = rospy.Publisher("/pcl_table"       , PointCloud2,          queue_size=1)
     pcl_table1_pub        = rospy.Publisher("/pcl_table1"       , PointCloud2,          queue_size=1)
     #pcl_table2_pub        = rospy.Publisher("/pcl_table2"       , PointCloud2,          queue_size=1)
@@ -255,7 +283,7 @@ if __name__ == '__main__':
     get_color_list.color_list = []
 
     # Load Model From disk
-    model = pickle.load(open('/home/makemelive/catkin_ws/src/Open_Mobile_Manipulator/sensor_stick/model.sav', 'rb'))
+    model = pickle.load(open('/home/makemelive/catkin_ws/src/Open_Mobile_Manipulator/sensor_stick/model2.sav', 'rb'))
     clf = model['classifier']
     encoder = LabelEncoder()
     encoder.classes_ = model['classes']

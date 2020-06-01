@@ -23,7 +23,7 @@ listener = tf.TransformListener()
 
 while not rospy.is_shutdown():
     try:
-        (trans,rot) = listener.lookupTransform('/robot_footprint', '/soap2', rospy.Time(0))
+        (trans,rot) = listener.lookupTransform('/robot_footprint', '/monster_black', rospy.Time(0))
         print(trans)
         break
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
@@ -55,18 +55,18 @@ pose_target.position.y = trans[1]
 pose_target.position.z = trans[2] 
 
 
-x_offset_distance = -0.05#-0.1
+x_offset_distance = -0.1#-0.1
 y_offset_distance = 0.0
-z_offset_distance = 0.01#0.03
+z_offset_distance = 0.04#0.03
 
-x_offset_approach = -0.01
+x_offset_approach = -0.04
 y_offset_approach = 0.0
-z_offset_approach = 0.01#0.03
+z_offset_approach = 0.04#0.03
 
 
-x_offset_lift = -0.01
+x_offset_lift = -0.1
 y_offset_lift = 0.0
-z_offset_lift = 0.03
+z_offset_lift = 0.07
 #Step 1 Approach at a distance
 
 pose_target.position.x = trans[0] + x_offset_distance

@@ -24,26 +24,27 @@ if __name__ == '__main__':
     rospy.init_node('capture_node')
 
     models = [
-       'box_red',
-       'box_orange',
-       'box_green',
-       'box_black',
+       #'box_red',
+       #'box_orange',
+       #'box_green',
+       'monster',
+       'box_black']
        #'cinder_block_2',
-       'beer',
-       'bowl',
+       #'beer',
+       #'bowl',
        #'create',
        #'disk_part',
-       'hammer',
-       'plastic_cup',
-       'soda_can',
-       'biscuits',
-       'soap',
-       'soap2',
-       'book',
-       'glue',
-       'sticky_notes',
-       'snacks',
-       'eraser']
+       #'hammer',
+       #'plastic_cup',
+       #'soda_can',
+       #'biscuits',
+       #'soap',
+       #'soap2',
+       #'book',
+       #'glue',
+       #'sticky_notes',
+       #'snacks',
+       #'eraser']
 
     # Disable gravity and delete the ground plane
     initial_setup()
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     for model_name in models:
         spawn_model(model_name)
 
-        for i in range(1000):
+        for i in range(400):
             # make five attempts to get a valid a point cloud then give up
             sample_was_good = False
             try_count = 0
