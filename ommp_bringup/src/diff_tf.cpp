@@ -117,7 +117,7 @@ void Odometry_calc::init_variables()
 
 	ticks_meter = 26748.21;
 
-	base_width = 0.3;
+	base_width = 0.45;
 
 	
 	
@@ -403,4 +403,5 @@ int main(int argc, char **argv)
 	return 0;
 
 }
+
 

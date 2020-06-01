@@ -32,14 +32,16 @@
   <!-- Arm is a clone of joint_States - perfect execution -->
   <node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
   output="screen"/>
-  
+  <node name="PCA9685_driver" pkg="pwm_pca9685" type="pca9685_node" respawn="false" 
+  output="screen"/>
   <!-- Transforms cmd_vel to appropiate wheel velocity target for rosserial-pid -->
   <node name="Cmd_Vel_to_Arduino" pkg="ommp_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 
   output="screen"/>
 
-  <!-- Kinect motors pitch -->
-  <!--node name="Kinect_AUX" pkg="kinect_aux" type="kinect_aux_node" respawn="false" 
-  output="screen"/-->
+
+
+
+
 
 
   <!-- Start the LIDAR driver -->
@@ -49,7 +51,7 @@
 
 
   <!-- From encoders array values calculate odometry -->
-  <node pkg="lynxbot_bringup" type="Diff_TF" name="Diff_TF" output="screen">
+  <node pkg="ommp_bringup" type="Diff_TF" name="Diff_TF" output="screen">
     <rosparam file="$(find ommp_bringup)/config/start/odom_encoder_params.yaml" command="load" />
   </node>
   
@@ -58,8 +60,23 @@
       <rosparam file="$(find ommp_bringup)/config/start/serial_params.yaml" command="load" />
   </node>
 
+  <!-- camera relay-->
+  <node name="Camera_Relay" pkg="ommp_bringup" type="Camera_Relay" respawn="false" 
+  output="screen"/>
+  <!-- Kinect motors pitch -->
+  <!--node name="Kinect_AUX" pkg="kinect_aux" type="kinect_aux_node" respawn="false" 
+  output="screen"/-->
+
+  <!-- moveit -->
+  <include file="$(find ommp_bringup)/launch/arm/moveit.launch"/>
+    <node name="set_start_arm_pos" pkg="ommp_bringup" type="set_start_pos.py" respawn="false" 
+  output="screen"/>
+
+  
+
+
   <!-- Comment : to start Kinect driver I use docker run the following command-->
-  <!-- sudo docker run net=host privileged kinect_image:1.0 -->
+  <!--docker start kinect && docker exec kinect /bin/bash -->
 
 
   <!-- Optional laser odometry publish tf? -->

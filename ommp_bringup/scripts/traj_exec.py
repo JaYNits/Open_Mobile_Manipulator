@@ -23,13 +23,14 @@ listener = tf.TransformListener()
 
 while not rospy.is_shutdown():
     try:
-        (trans,rot) = listener.lookupTransform('/robot_footprint', '/soap2', rospy.Time(0))
+        (trans,rot) = listener.lookupTransform('/robot_footprint', '/beer', rospy.Time(0))
         print(trans)
         break
     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
         continue
-print("hey")
+
 #First go to start position with open gripper
+'''
 arm_group.set_named_target("out_of_view")
 plan_arm = arm_group.plan()
 arm_group.go(wait=True)
@@ -37,10 +38,10 @@ rospy.sleep(1)
 gripper_group.set_named_target("gripper_open") 
 plan_gripper = gripper_group.plan()
 gripper_group.go(wait=True)
-rospy.sleep(5)
+rospy.sleep(1)
+'''
 
 
-print("hey2")
 #orientation of approach of the end effector
 q = tf.transformations.quaternion_from_euler(0,1.57,0.0)
 
@@ -55,18 +56,18 @@ pose_target.position.y = trans[1]
 pose_target.position.z = trans[2] 
 
 
-x_offset_distance = -0.05#-0.1
+x_offset_distance = -0.11#-0.1
 y_offset_distance = 0.0
-z_offset_distance = 0.01#0.03
+z_offset_distance = 0.15#0.03
 
-x_offset_approach = -0.01
+x_offset_approach = -0.08
 y_offset_approach = 0.0
-z_offset_approach = 0.01#0.03
+z_offset_approach = 0.085#0.03
 
 
-x_offset_lift = -0.01
+x_offset_lift = -0.11
 y_offset_lift = 0.0
-z_offset_lift = 0.03
+z_offset_lift = 0.13
 #Step 1 Approach at a distance
 
 pose_target.position.x = trans[0] + x_offset_distance
@@ -91,7 +92,8 @@ arm_group.go(wait=True)
 rospy.sleep(1)
 
 gripper_group.set_named_target("gripper_close") 
-plan_gripper = gripper_group.go(wait=True)
+plan_gripper = gripper_group.plan()
+gripper_group.go(wait=True)
 rospy.sleep(1)
 
 # Step 3 Lift the object off the ground
@@ -109,10 +111,10 @@ rospy.sleep(1)
 # Step 4 Go the object to the desired position
 
 group_variable_values = arm_group.get_current_joint_values()
-group_variable_values[0] = 1.57
-group_variable_values[1] = -0.3
+group_variable_values[0] = -1.57
+group_variable_values[1] = 0
 group_variable_values[2] = 1.57
-group_variable_values[3] = .0
+group_variable_values[3] = 0.0
 group_variable_values[4] = 0.0
 group_variable_values[5] = 0.0
 arm_group.set_joint_value_target(group_variable_values)
@@ -121,8 +123,39 @@ plan_arm = arm_group.plan()
 arm_group.go(wait=True)
 rospy.sleep(1)
 
+# Step 5 Place object on the ground
+
+group_variable_values = arm_group.get_current_joint_values()
+group_variable_values[0] = -1.57
+group_variable_values[1] = 1.25
+group_variable_values[2] = 1.57
+group_variable_values[3] = 0.0
+group_variable_values[4] = -1.3
+group_variable_values[5] = 0.0
+arm_group.set_joint_value_target(group_variable_values)
+
+plan_arm = arm_group.plan()
+arm_group.go(wait=True)
+rospy.sleep(1)
+
 gripper_group.set_named_target("gripper_open") 
-plan_gripper = gripper_group.go(wait=True)
+plan_gripper = gripper_group.plan()
+gripper_group.go(wait=True)
+rospy.sleep(1)
+
+# Step 6 Move away from object
+
+group_variable_values = arm_group.get_current_joint_values()
+group_variable_values[0] = -1.57
+group_variable_values[1] = 0.0
+group_variable_values[2] = 1.57
+group_variable_values[3] = 0.0
+group_variable_values[4] = 0
+group_variable_values[5] = 0.0
+arm_group.set_joint_value_target(group_variable_values)
+
+plan_arm = arm_group.plan()
+arm_group.go(wait=True)
 rospy.sleep(1)
 
 #Return at start

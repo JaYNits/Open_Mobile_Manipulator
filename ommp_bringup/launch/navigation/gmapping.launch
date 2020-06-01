@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <param name="use_sim_time" value="true"/>
+    <param name="use_sim_time" value="false"/>
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
       <remap from="scan" to="/scan"/>
       <rosparam file="$(find ommp_bringup)/config/navigation/gmapping_params.yaml" command="load" />

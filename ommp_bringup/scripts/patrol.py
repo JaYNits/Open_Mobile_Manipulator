@@ -7,8 +7,8 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 # the list of points to patrol
 waypoints = [
-    ['one', (3.14, -0.347, 0.1)],
-    ['two', (5.5857, 0.05, 0.9995)]
+    ['one', (4.06, 0.56, 0.1)],
+    ['two', (1.6817, 1.02, 0.66)]
 ]
 
 class Patrol:

@@ -24,8 +24,8 @@
     <rosparam file="$(find ommp_bringup)/config/navigation/global_costmap_params.yaml" command="load" ns="global_costmap"/>
     
 
-    <remap from="cmd_vel" to="diff_velocity_controller/cmd_vel"/>
-    <remap from="odom" to="diff_velocity_controller/odom"/>
+    <remap from="cmd_vel" to="/cmd_vel"/>
+    <remap from="odom" to="/odom"/>
     <remap from="scan" to="/scan"/>
 
 

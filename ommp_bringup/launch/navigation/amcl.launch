@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="use_sim_time" value="true"/>
+  <param name="use_sim_time" value="false"/>
   <!-- Scan topic -->
   <arg name="scan_topic" default="scan" />
   <!-- Map server -->
   <!--arg name="map_file" default="$(find lynxbot_bringup)/map/designed_map.yaml"/-->
-  <arg name="map_file" default="$(find ommp_bringup)/map/sim_map.yaml"/>
+  <arg name="map_file" default="$(find ommp_bringup)/map/patra_map.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!-- Place map frame at odometry frame -->

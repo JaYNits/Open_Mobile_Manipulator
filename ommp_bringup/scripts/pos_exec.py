@@ -10,13 +10,20 @@ import rospy
 from std_msgs.msg import Int16
 moveit_commander.roscpp_initialize(sys.argv)
 rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
-
 robot = moveit_commander.RobotCommander()
 scene = moveit_commander.PlanningSceneInterface()    
 group = moveit_commander.MoveGroupCommander("arm")
 gripper_group = moveit_commander.MoveGroupCommander("gripper")
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
-positions = [[0.3,0,1.57,0,0,0]]#[[0,-1.1,1.9,0,-1.4,0]]
+positions = [[1.57,0.7,1.57,0,0.807,0]]#[[0,-1.1,1.87,0,-1.4,0]]
+'''
+group_variable_values[0] = 1.57
+group_variable_values[1] = 0.3
+group_variable_values[2] = 1.57
+group_variable_values[3] = 0.0
+group_variable_values[4] = 1.4
+group_variable_values[5] = 0.0
+'''
 for pos in positions:
 	group_variable_values = group.get_current_joint_values()
 	print group_variable_values

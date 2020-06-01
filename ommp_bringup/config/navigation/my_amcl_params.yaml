@@ -1,21 +1,21 @@
 use_map_topic: true
 odom_model_type: diff-corrected
-odom_frame_id: odom_combined
+odom_frame_id: odom
 global_frame_id: map
 base_frame_id: robot_footprint
 tf_broadcast: true
 
-min_particles: 300
-max_particles: 1500
+min_particles: 80
+max_particles: 200
 kld_err: 0.04 #0.1
 kdl_z: 0.99 #0.99
-update_min_d: 0.0
-update_min_a: 0.0
+update_min_d: 0.01
+update_min_a: 0.01
 resample_interval: 1
 transform_tolerance: 0.3
 
-laser_max_beams: 80
-laser_max_range: 10.0
+laser_max_beams: 50
+laser_max_range: 6.0
 laser_z_hit: 0.95 #0.95 #ria 0.5
 laser_z_short: 0.1 #0.1 #ria 0.05
 laser_z_max: 0.05 #0.05
@@ -26,10 +26,10 @@ laser_lambda_short: 0.1
 laser_model_type: likelihood_field
 
 
-odom_alpha1: 0.35  # expect noise of rotation estimate from rotation movement
-odom_alpha2: 0.1 # expect noise of rotation estimate from translation movement
-odom_alpha3: 0.1 # expect noise of translation estimate from translation movement
-odom_alpha4: 0.15 # expect noise of translation estimate from rotation movement
+odom_alpha1: 0.15  # expect noise of rotation estimate from rotation movement
+odom_alpha2: 0.05 # expect noise of rotation estimate from translation movement
+odom_alpha3: 0.05 # expect noise of translation estimate from translation movement
+odom_alpha4: 0.1 # expect noise of translation estimate from rotation movement
 #odom_alpha5: 0.1
 initial_pose_x: 0
 initial_pose_y: 0

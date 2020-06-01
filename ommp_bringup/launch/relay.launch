@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <node name="kinect_topic_relay" pkg="topic_tools" type="relay" args="camera/depth_registered/points my_camera/depth_registered/points" output="screen"/>
+
+</launch>

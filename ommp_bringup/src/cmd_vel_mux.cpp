@@ -20,8 +20,10 @@ public:
     array.data.clear();
     float x = cmd->linear.x;
     float z = cmd->angular.z;
-    float left_vel = x + (z * w / 2.0) / 0.06;
-    float right_vel = x - (z * w / 2.0) / 0.06;
+    if (x > limit_x) x=limit_x; if(x < -limit_x) x=-limit_x;
+    if (z > limit_z) z=limit_z; if(z < -limit_z) z=-limit_z;
+    float left_vel = x - (z * w / 2.0) / 0.05;
+    float right_vel = x + (z * w / 2.0) / 0.05;
 
     array.data.push_back(left_vel);
     array.data.push_back(right_vel);
@@ -34,6 +36,8 @@ protected:
   ros::Subscriber cmd_vel_sub;
   ros::Publisher set_vel_pub;
   float w = 0.25;
+  float limit_x = 0.25;
+  float limit_z = 0.15;
 };
 
 int main(int argc, char **argv) {
