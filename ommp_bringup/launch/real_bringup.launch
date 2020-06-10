@@ -17,7 +17,7 @@
   <rosparam file="$(find ommp_bringup)/config/control/joint_state_controller.yaml" command="load"/>
   <rosparam file="$(find ommp_bringup)/config/control/arm_control.yaml" command="load"/>
   <rosparam file="$(find ommp_bringup)/config/control/gripper_position_control.yaml" command="load"/>
-  <rosparam file="$(find ommp_bringup)/config/control/kinect_control.yaml" command="load"/>
+  <rosparam file="$(find ommp_bringup)/config/control/kinect_control_real.yaml" command="load"/>
   <rosparam file="$(find ommp_bringup)/config/control/hardware_interface_settings.yaml" command="load"/>
   
   <!-- start controller manager -->

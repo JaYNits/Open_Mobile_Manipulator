@@ -13,6 +13,7 @@
       <xacro:cylinder_inertial radius="${radius}" length="${length}" mass="${mass}">
         <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/>
       </xacro:cylinder_inertial>
+
       <visual>
         <geometry>
           <cylinder length="${length}" radius="${radius}"/>
@@ -22,13 +23,16 @@
           <color rgba="${color}"/>
         </material>
       </visual>
+
       <collision>
         <geometry>
           <cylinder length="${length*0.5}" radius="${radius*0.5}"/>
         </geometry>
         <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/>
       </collision>
+
     </link>
+
   </xacro:macro>
 
   <xacro:macro name="arm_joint" params="joint_name type parent child 
@@ -66,7 +70,7 @@
       </visual>
       <collision>
         <geometry>
-          <box size="${size_x*0.5} ${size_y*0.5} ${size_z*0.5}"/>
+          <box size="${size_x*0.9} ${size_y*0.9} ${size_z*0.9}"/>
         </geometry>
         <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/>
       </collision>
@@ -84,6 +88,18 @@
     <limit effort="100.0" velocity="1.0" lower="${lower_limit}" upper="${upper_limit}"/>
     <joint_properties damping="0.0" friction="10.0"/>
     <!--safety_controller k_velocity="10.0" k_position="15.0" soft_lower_limit="${lower_limit}" soft_upper_limit="${upper_limit}" /-->
+  </joint>
+  </xacro:macro>
+
+  <xacro:macro name="ee_base_joint" params="joint_name type parent child 
+    origin_xyz origin_rpy axis_xyz axis_rpy ">
+
+    <joint type="${type}" name="${joint_name}">
+    <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/>
+    <child link="${child}"/>
+    <parent link="${parent}"/>
+    <axis xyz="${axis_xyz}" rpy="${axis_rpy}"/>
+
   </joint>
   </xacro:macro>
 

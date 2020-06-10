@@ -8,7 +8,7 @@
       <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect.gazebo.xacro" />
       
       <!-- Instantiate it -->
-      <xacro:kinect_gazebo_sensor link_name="camera_depth_frame" camera_name="camera"
+      <xacro:kinect_gazebo_sensor link_name="camera_depth_frame" camera_name="my_camera"
                        frame_name="camera_depth_optical_frame"/>
 
   </xacro:if>
@@ -22,7 +22,7 @@
 	<xacro:macro name="sensor_kinect" params="parent">
 
     <joint name="camera_rgb_joint" type="revolute">
-      <origin xyz="${cam_px} ${cam_py} ${cam_pz}" rpy="${cam_or} ${cam_op} ${cam_oy}"/>
+      <xacro:insert_block name="kinect_joint_origin" />
       <parent link="${parent}" />
       <child link="camera_rgb_frame" />
       <axis xyz="0 1 0" rpy="0 0 0" />
@@ -30,11 +30,7 @@
       <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
       <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-1.57" soft_upper_limit="1.57" />
     </joint>
-    <!--joint name="camera_rgb_joint" type="fixed">
-      <origin xyz="0.031 ${-cam_py} 0.016" rpy="0 0 0"/>
-      <parent link="kinect_dummy"/>
-      <child link="camera_rgb_frame" />
-    </joint-->
+
     <link name="camera_rgb_frame">
       <inertial>
         <mass value="0.001" />

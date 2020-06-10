@@ -67,28 +67,11 @@ void GenericHWInterface::init() {
 
   // Status
   joint_position_.resize(num_joints_, 0.0);
-  /*
-  joint_position_[4] = 0.0;
-  joint_position_[5] = -1.1;
-  joint_position_[6] = 1.9;
-  joint_position_[7] = 0.0;
-  joint_position_[8] = -1.4;
-  joint_position_[9] = 0.0;
-  joint_position_[10] = 0.0;
-  joint_position_[11] = 0.0;*/
   joint_velocity_.resize(num_joints_, 0.0);
   joint_effort_.resize(num_joints_, 0.0);
 
   // Command
   joint_position_command_.resize(num_joints_, 0.0);
-  /*joint_position_command_[4] = 0.0;
-  joint_position_command_[5] = -1.1;
-  joint_position_command_[6] = 1.9;
-  joint_position_command_[7] = 0.0;
-  joint_position_command_[8] = -1.4;
-  joint_position_command_[9] = 0.0;
-  joint_position_command_[10] = 0.0;
-  joint_position_command_[11] = 0.0;*/
   joint_velocity_command_.resize(num_joints_, 0.0);
   joint_effort_command_.resize(num_joints_, 0.0);
 

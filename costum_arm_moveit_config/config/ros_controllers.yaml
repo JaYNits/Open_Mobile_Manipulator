@@ -35,6 +35,7 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
+      - virtual_joint
       - joint_0
       - joint_1
       - joint_2

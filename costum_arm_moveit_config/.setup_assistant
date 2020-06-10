@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: ommp_description
-    relative_path: urdf/robots/lynxbot/lynx_rover.urdf.xacro
+    relative_path: urdf/robots/ommp_sim/ommp_sim.urdf.xacro
     xacro_args: ""
   SRDF:
-    relative_path: config/lynx_rover.srdf
+    relative_path: config/ommp_sim.srdf
   CONFIG:
     author_name: Panagiotis
-    author_email: panagelak12@gmail.com
-    generated_timestamp: 1586504103
+    author_email: panagiotis.angelakis.robot@gmail.com
+    generated_timestamp: 1591648613

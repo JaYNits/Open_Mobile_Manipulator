@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <launch>
+
   <!-- Scan topic -->
   <arg name="scan_topic" default="scan" />
   <arg name="local_planner" default="base_local_planner/TrajectoryPlannerROS" />
   <!--arg name="local_planner" default="dwa_local_planner/DWAPlannerROS" /-->
   <!--arg name="local_planner" default="teb_local_planner/TebLocalPlannerROS" /-->
+
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <param name="base_global_planner" value="navfn/NavfnROS"/>
     <!--param name="base_local_planner" value="${local_planner}"/-->
@@ -24,8 +26,8 @@
     <rosparam file="$(find ommp_bringup)/config/navigation/global_costmap_params.yaml" command="load" ns="global_costmap"/>
     
 
-    <remap from="cmd_vel" to="diff_velocity_controller/cmd_vel"/>
-    <remap from="odom" to="diff_velocity_controller/odom"/>
+    <remap from="cmd_vel" to="/diff_velocity_controller/cmd_vel"/>
+    <remap from="odom" to="/diff_velocity_controller/odom"/>
     <remap from="scan" to="/scan"/>
 
 

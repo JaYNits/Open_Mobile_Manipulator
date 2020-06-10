@@ -15,7 +15,7 @@
     <!--imu -->
   <!--xacro:include filename="$(find ommp_description)/urdf/sensors/imu/imu.urdf.xacro" /-->
     <!-- kinect -->
-  <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect_real.urdf.xacro" />
 
   <!-- Include Bases-->
   <xacro:include filename="$(find ommp_description)/urdf/bases/lynxbot_base/lynxbot_bases.urdf.xacro" />

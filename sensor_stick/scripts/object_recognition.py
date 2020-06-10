@@ -71,7 +71,7 @@ def pcl_callback(pcl_msg):
 
     filter_axis = 'y'
     passthrough.set_filter_field_name(filter_axis)
-    axis_min = 0.05
+    axis_min = 0.0
     axis_max = 0.5
     passthrough.set_filter_limits(axis_min, axis_max)
     # Finally use the filter function to obtain the resultant point cloud. 

@@ -12,8 +12,10 @@
       <child link="${prefix}_wheel_link"/>
       <xacro:insert_block name="origin" />
       <axis xyz="0 1 0" rpy="0 0 0" />
-      <limit effort="10000" velocity="1000"/>
-      <joint_properties damping="20.0" friction="10.0"/>
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+      <!--joint_properties-->
+
     </joint>
 
     <link name="${prefix}_wheel_link">
@@ -37,7 +39,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="10"/>
-        <inertia ixx="0.005"  ixy="0"  ixz="0" iyy="0.005" iyz="0" izz="0.005" />
+        <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.05" iyz="0" izz="0.05" />
       </inertial>
 
     </link>
@@ -57,15 +59,17 @@
     </transmission>
 
     <xacro:if value="${gz}">
+
       <gazebo reference="${prefix}_wheel_link">
-      <!--mu1 value="1.0"/>
-      <mu2 value="1.0"/>
-      <kp value="10000000.0" />
-      <kd value="1.0" />
-      <fdir1 value="1 0 0"/>
-          <turnGravityOff>false</turnGravityOff-->
-      <material>Gazebo/Blue</material>
+        <mu1 value="1.0"/>
+        <mu2 value="1.0"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+        <fdir1 value="1 0 0"/>
+            <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/Blue</material>
       </gazebo>
+      
     </xacro:if>
 
 

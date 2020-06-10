@@ -1,6 +1,7 @@
 controller_list:
   - name: fake_arm_controller
     joints:
+      - virtual_joint
       - joint_0
       - joint_1
       - joint_2

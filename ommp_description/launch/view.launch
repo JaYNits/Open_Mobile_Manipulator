@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="ommp_sim"/> <!--ommp_real-->
+  <arg name="sim" default="true"/>       <!--false-->
+    <!-- send urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ommp_description)/urdf/robots/$(arg robot)/$(arg robot).urdf.xacro' sim:=$(arg sim)" />
+
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+   
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ommp_bringup)/config/rviz/view_robot.rviz" required="true" />
+</launch>

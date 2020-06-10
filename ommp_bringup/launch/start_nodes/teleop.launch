@@ -2,7 +2,7 @@
 <launch>
 
   <node name="teleop" pkg="ommp_bringup" type="teleop" output="screen">
-     <!--remap from="teleop/cmd_vel" to="/diff_velocity_controller/cmd_vel"/-->
-     <remap from="teleop/cmd_vel" to="/cmd_vel"/>
+     <remap from="teleop/cmd_vel" to="/diff_velocity_controller/cmd_vel"/>
+     <!--remap from="teleop/cmd_vel" to="/cmd_vel"/-->
   </node>
 </launch>

@@ -13,9 +13,9 @@
 
     <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
 
-      <remap from="rgb/image" to="/camera/rgb/image_raw"/>
-      <remap from="depth/image" to="/camera/depth_registered/image_raw"/>
-      <remap from="rgb/camera_info" to="/camera/rgb/camera_info"/>
+      <remap from="rgb/image" to="/my_camera/rgb/image_raw"/>
+      <remap from="depth/image" to="/my_camera/depth_registered/image_raw"/>
+      <remap from="rgb/camera_info" to="/my_camera/rgb/camera_info"/>
       <remap from="rgbd_image" to="rgbd_image"/>
 
       <param name="approx_sync" value="true"/>
@@ -26,7 +26,7 @@
 
      <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
 
-       <remap from="odom" to="/odom_combined"/>
+       <remap from="odom" to="/diff_velocity_controller/odom"/>
        <remap from="scan" to="/scan"/>
        <remap from="rgbd_image" to="rgbd_image"/>
 

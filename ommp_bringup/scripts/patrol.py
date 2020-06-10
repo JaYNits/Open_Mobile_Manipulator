@@ -7,12 +7,10 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 # the list of points to patrol
 waypoints = [
-    ['one', (3.14, -0.347, 0.1)],
-    ['two', (5.5857, 0.05, 0.9995)]
-]
-
+    ['one', (6.35, 0.8, 0.1)],
+    ['two', (-1.9, -0.17, 0.1)],
+    ['three',(3.44,1.05,0.1)]]
 class Patrol:
-
     def __init__(self):
         self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.client.wait_for_server()
