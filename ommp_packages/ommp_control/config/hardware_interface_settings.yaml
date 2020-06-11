@@ -13,9 +13,9 @@ hardware_interface:
     - joint_5
     - joint_finger1
     - joint_finger2
-    - camera_dummy_joint
-#      - front_left_wheel_joint
-#      - front_right_wheel_joint
-#      - back_left_wheel_joint
-#      - back_right_wheel_joint
+    - camera_rgb_joint
+    - front_left_wheel_joint
+    - front_right_wheel_joint
+    - back_left_wheel_joint
+    - back_right_wheel_joint
   sim_control_mode: 0 # 0: position, 1: velocity

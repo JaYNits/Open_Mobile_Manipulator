@@ -6,7 +6,7 @@
   <rosparam file="$(find ommp_control)/config/arm_control.yaml" command="load"/>
   <rosparam file="$(find ommp_control)/config/gripper_position_control.yaml" command="load"/>
   <rosparam file="$(find ommp_control)/config/kinect_control_sim.yaml" command="load"/>
-  <!--rosparam file="$(find ommp_bringup)/config/control/hardware_interface_settings.yaml" command="load"/-->
+  <!--rosparam file="$(find ommp_control)/config/hardware_interface_settings.yaml" command="load"/-->
   <rosparam file="$(find ommp_control)/config/diff_control.yaml" command="load"/>
 
   <!-- launch the controller manager for ros control -->

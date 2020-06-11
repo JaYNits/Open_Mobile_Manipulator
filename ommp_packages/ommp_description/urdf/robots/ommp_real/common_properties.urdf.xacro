@@ -70,7 +70,7 @@
   <xacro:property name="lidar_parent" value="chassis" />
 
   <xacro:property name="lidar_joint_origin">
-    <origin xyz="0.026 0.0 0.047" rpy="0 0 0" /> <!-- height 0.67 or lower --> <!-- exprimental start base 15.5 -> -0.4 + 3-->
+    <origin xyz="0.026 0.0 0.058" rpy="0 0 3.098" /> <!-- height 0.67 or lower --> <!-- exprimental start base 15.5 -> -0.4 + 3-->
   </xacro:property>
 
 
@@ -78,12 +78,17 @@
 
   <xacro:property name="kinect_parent" value="kinect_base2" />
 
-  <xacro:property name="cam_px" value="0.02" />
+  <xacro:property name="cam_px" value="-0.02" />
   <xacro:property name="cam_py" value="0.0" />
-  <xacro:property name="cam_pz" value="0.039" />
+  
+  <xacro:property name="cam_pz" value="0.095" /><!--0.35--> <!--0.095-->
+
   <xacro:property name="cam_or" value="0.0" />
-  <xacro:property name="cam_op" value="0.54" />
-  <xacro:property name="cam_oy" value="0.0" />
+
+  <!--xacro:property name="cam_op" value="0.0" /-->
+  <xacro:property name="cam_op" value="0.541" /> <!--0.541-->
+  
+  <xacro:property name="cam_oy" value="0.02" />
   <!-- Arm -->
   <xacro:property name="arm_joint_origin">
     <origin xyz="0.119 0.0 0.024" rpy="0 0 0" />

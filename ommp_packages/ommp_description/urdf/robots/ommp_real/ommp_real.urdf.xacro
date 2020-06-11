@@ -2,7 +2,7 @@
 
 <robot name="ommp_real" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <arg name="sim" default="true"/>
+  <arg name="sim" default="false"/>
 
   <!-- Common design Properties-->
   <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_real/common_properties.urdf.xacro" />
@@ -13,12 +13,12 @@
     <!--ydlidar -->
   <xacro:include filename="$(find ommp_description)/urdf/sensors/ydlidar/ydlidar.urdf.xacro" />
     <!--imu -->
-  <!--xacro:include filename="$(find ommp_description)/urdf/sensors/imu/imu.urdf.xacro" /-->
+  <xacro:include filename="$(find ommp_description)/urdf/sensors/imu/imu.urdf.xacro" />
     <!-- kinect -->
   <xacro:include filename="$(find ommp_description)/urdf/sensors/kinect/kinect_real.urdf.xacro" />
 
   <!-- Include Bases-->
-  <xacro:include filename="$(find ommp_description)/urdf/bases/lynxbot_base/lynxbot_bases.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/bases/ommp_base_real/ommp_bases.urdf.xacro" />
 
   <!-- Wheel Macro-->
   <xacro:include filename="$(find ommp_description)/urdf/wheels/costum_wheel/costum_wheel.urdf.xacro" />
@@ -36,7 +36,7 @@
 
 
   <!-- All the bases of the robot -->
-  <xacro:lynxbot_bases />
+  <xacro:ommp_bases />
   
   <!-- Instanciate the 4 wheels of the robot -->
   <xacro:costum_wheel prefix="front_left" parent="chassis" gz="false">
@@ -62,7 +62,7 @@
   
   <xacro:sensor_laser parent="chassis" />
 
-  <!--xacro:imu_sensor parent="chassis" /-->
+  <xacro:imu_sensor parent="chassis" />
   
   <!-- connect arm -->
   <xacro:costum_arm parent="${arm_parent}" />
