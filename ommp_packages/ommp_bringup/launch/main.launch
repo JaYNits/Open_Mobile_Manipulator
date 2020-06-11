@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <include file="$(find ommp_bringup)/launch/sim_bringup.launch">
+    
+    <arg name="robot" value="ommp_sim"/>
+    <arg name="world" value="navigation"/> <!--empty, rtabmap, navigation-->
+    <arg name="sim" value="true"/>
+
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+
+  </include>
+
+  <include file="$(find moveit_interface)/launch/moveit.launch"/>
+  <node name="Set_Start_Arm_Pos" pkg="moveit_interface" type="set_start_pos.py" respawn="false" output="screen"/>
+
+  <node name="Kinect_Start_Pos" pkg="ommp_control" type="kinect_pos.py" respawn="false" output="screen"/>
+  
+
+
+</launch>

@@ -8,7 +8,7 @@ import math
 from std_msgs.msg import Float64
 from std_msgs.msg import Int32
 from std_msgs.msg import String
-from pick_place.srv import *
+from moveit_interface.srv import *
 from rospy_message_converter import message_converter
 import yaml
 import random

@@ -1,14 +1,3 @@
-/*******************************************************************************
- * Copyright (C) 2017 Udacity Inc.
- *
- * This file is part of Robotic Arm: Perception project for Udacity
- * Robotics nano-degree program
- *
- * All Rights Reserved.
- ******************************************************************************/
-
-// Author: Harsh Pandya
-
 #ifndef PICK_PLACE_SERVER_H
 #define PICK_PLACE_SERVER_H
 
@@ -27,12 +16,13 @@
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 //#include <moveit_msgs/AttachedCollisionObject.h>
-//#include <moveit_msgs/CollisionObject.h>
+#include <moveit_msgs/CollisionObject.h>
 
 #include <geometric_shapes/shape_operations.h>
 
 #include <eigen_conversions/eigen_msg.h>
-#include <pick_place/PickPlace.h>
+
+#include <moveit_interface/PickPlace.h>
 
 #include <tf/tf.h>
 
@@ -42,8 +32,8 @@ public:
   explicit MyPickPlace(ros::NodeHandle nh);
   ~MyPickPlace();
 
-  bool Routine(pick_place::PickPlace::Request &req,
-                      pick_place::PickPlace::Response &res);
+  bool Routine(moveit_interface::PickPlace::Request &req,
+                      moveit_interface::PickPlace::Response &res);
 
 private:
   ros::NodeHandle nh_;

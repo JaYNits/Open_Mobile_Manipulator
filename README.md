@@ -11,6 +11,10 @@ This can help you to learn
 
 **Move-it, Navigation, Rtabmap, Amcl and the hardware interface of a real robot and much more** 
 
+## Branches
+**master branch for simulation**
+**jetson branch for real robot**
+
 ##Some GIFS
 
 
@@ -56,7 +60,9 @@ This can help you to learn
 ![](data/gifs/RTAB-Map_Localization.gif)
 
 ## Youtube Videos
+[**Pick n Place Server w/ 3D Recognition n Moveit Visual Tools - Video**](https://www.youtube.com/watch?v=EEcQfJ2CcUc)
 
+**See how it recognize the object and moves it out of the way!!!**
 
 [**Autonomous Navigation - AMCL - Move_Base- MoveIt - Video**](https://www.youtube.com/watch?v=-vyhhE-3uxY&feature=emb_logo)
 
@@ -82,18 +88,18 @@ This can help you to learn
 
 ## For simulation
 
-**$ roslaunch ommp_simulation sim_bringup.launch**
+**$ roslaunch ommp_bringup sim_bringup.launch world:=simple robot:=ommp_sim**
 
 **To again launch the robot in the Gazebo alongside the controllers etc..**
 
 **Then you can try for example the following commands**
 
-**$ roslaunch ommp_bringup moveit.launch**
-**$ rosrun ommp_bringup set_start_pos.py**
+**$ roslaunch moveit_interface moveit.launch**
+**$ rosrun moveit_interface set_start_pos.py**
 
-**$ roslaunch ommp_bringup gmapping.launch**
+**$ roslaunch ommp_navigation gmapping.launch**
 
-**$ roslaunch ommp_bringup teleop.launch**
+**$ roslaunch ommp_navigation teleop.launch**
 
 ## Scripting
 
@@ -101,13 +107,33 @@ This can help you to learn
 
 **It is a good practice to use script files to launch automatically multiple terminals with your desired commands by simple running the script**
 
+**Make sure you have installed xterm emulator**
+**sudo apt-get update -y**
+**sudo apt-get install -y x-terminal-emulator**
+
+**also your scripts (and .py) files have permissions**
+**chmod +x safe_spawner_navigation.sh**
+
+
 **To that end you can go to ( $ roscd safe_spawner ) there you will find some scripts - demos that you can run, for example**
 
 **1. $ ./safe_spawner_exploration.sh** to map automatically a new gazebo world with move_base, gmapping and a greedy exploration node
 
-**2. $ ./safe_spawner_object_recognition.sh** to spawn the robot in a world with some object that you can recognize.
+**2. $ ./safe_spawner_navigation.sh** to navigate in a previously known map with amcl and move_base
 
-**3. $ ./safe_spawner_rtabmap_mapping.sh** to spawn the robot in a feature rich world in order to perform 3D mapping with teleop commands.
+**3. $ ./safe_spawner_without_map_navigation.sh** to navigate using ONLY move_base
+
+**4. $ ./safe_spawner_patrol.sh** to navigate in a previously known map with amcl and move_base and a patrol node
+
+**5. $ ./safe_spawner_object_recognition.sh** to spawn the robot in a world with some object that you can recognize, also launches the pick and place server alongside the client press continue in rviz
+
+**6. $ ./safe_spawner_rtabmap_mapping.sh** to spawn the robot in a feature rich world in order to perform 3D mapping with teleop commands.
+
+**7. $ ./safe_spawner_rtabmap_localization.sh** to spawn the robot in the feature rich world in order to perform Robot Kidnap Localization. Move the robot in Gazebo see RViz jump to correct position. Make sure you have the rtabmap database available at catkin_ws dir
+
+**8. $ ./safe_spawner_rtabmap_basic.sh** to spawn the robot controllers and rviz
+
+**9. $ ./safe_spawner_rtabmap_drive.sh** to spawn the robot controllers and rviz and teleop with an interactive marking for twist which doesn't work..
 
 **I will make more of this in the feature**
 

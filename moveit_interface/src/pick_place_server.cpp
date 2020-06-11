@@ -1,14 +1,3 @@
-/*******************************************************************************
- * Copyright (C) 2017 Udacity Inc.
- *
- * This file is part of Robotic Arm: Perception project for Udacity
- * Robotics nano-degree program
- *
- * All Rights Reserved.
- ******************************************************************************/
-
-// Author: Harsh Pandya
-
 #include<moveit_interface/pick_place_server.h>
 
 MyPickPlace::MyPickPlace(ros::NodeHandle nh)
@@ -47,8 +36,8 @@ MyPickPlace::MyPickPlace(ros::NodeHandle nh)
 
 }
 
-bool MyPickPlace::Routine(pick_place::PickPlace::Request &req,
-                      pick_place::PickPlace::Response &res)
+bool MyPickPlace::Routine(moveit_interface::PickPlace::Request &req,
+                      moveit_interface::PickPlace::Response &res)
 {
 
   // test
