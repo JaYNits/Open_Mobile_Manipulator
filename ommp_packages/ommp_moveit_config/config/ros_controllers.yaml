@@ -9,7 +9,6 @@ generic_hw_control_loop:
 # Settings for ros_control hardware interface
 hardware_interface:
   joints:
-    - virtual_joint
     - back_left_wheel_joint
     - back_right_wheel_joint
     - front_left_wheel_joint
@@ -35,7 +34,6 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
-      - virtual_joint
       - joint_0
       - joint_1
       - joint_2

@@ -6,6 +6,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/ommp_sim.srdf
   CONFIG:
-    author_name: Panagiotis
-    author_email: panagiotis.angelakis.robot@gmail.com
-    generated_timestamp: 1591648613
+    author_name: panagiotis
+    author_email: panagelak12@gmail.com
+    generated_timestamp: 1591889803
