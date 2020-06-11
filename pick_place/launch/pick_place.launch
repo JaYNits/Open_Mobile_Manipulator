@@ -1,9 +1,0 @@
-<launch>
-
-
-  <node name="my_pick_place_server" pkg="pick_place" type="my_pick_place_server"
-    respawn="false" output="screen"/>
-
-
-</launch>
-

@@ -1,0 +1,21 @@
+generic_hw_control_loop:
+  loop_hz: 50
+  cycle_time_error_threshold: 0.03
+
+# Settings for ros_control hardware interface
+hardware_interface:
+  joints:
+    - joint_0
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_finger1
+    - joint_finger2
+    - camera_dummy_joint
+    - front_left_wheel_joint
+    - front_right_wheel_joint
+    - back_left_wheel_joint
+    - back_right_wheel_joint
+  sim_control_mode: 0 # 0: position, 1: velocity

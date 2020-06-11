@@ -1,9 +1,0 @@
-# request
-geometry_msgs/Pose dist_pose
-geometry_msgs/Pose pick_pose
-geometry_msgs/Pose lift_pose
-# std_msgs/ place_pose
----
-# response
-bool success
-

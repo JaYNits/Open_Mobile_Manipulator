@@ -1,0 +1,165 @@
+<?xml version='1.0'?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:include filename="$(find ommp_description)/urdf/macros/link_joint_macro.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/arms/costum_arm/costum_arm.transmissions.xacro" />
+
+
+  <xacro:if value="$(arg sim)">
+
+      <!-- Gazebo arm -->
+      <xacro:include filename="$(find ommp_description)/urdf/arms/costum_arm/costum_arm.gazebo.xacro" />
+
+  </xacro:if>
+
+<xacro:property name="m_arm_base" value="1" />
+<xacro:property name="m_0" value="1" />
+<xacro:property name="m_1" value="1" />
+<xacro:property name="m_2" value="1" />
+<xacro:property name="m_3" value="0.4" />
+<xacro:property name="m_4" value="0.4" />
+<xacro:property name="m_5" value="0.4" />
+
+<!--Macro of the arm with the help of Link Joint Macros-->
+
+<xacro:macro name="costum_arm" params="parent">
+
+  <joint name="arm_joint" type="fixed">
+    <parent link="${parent}"/>
+    <child link="arm_footprint"/>
+    <xacro:insert_block name="arm_joint_origin" />
+  </joint>
+  
+
+  <link name="arm_footprint"/>
+  <joint name="arm_footprint_joint" type="fixed">
+    <parent link="arm_footprint"/>
+    <child link="arm_base"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <xacro:arm_link link_name="arm_base" length="0.04" radius="0.04"
+              origin_xyz="0 0 0"
+              origin_rpy="0 0 0"
+              color_name = "blue"
+              color = "0 0 1 1"
+              mass = "${m_arm_base}"/>
+
+
+
+
+
+  <xacro:arm_link link_name="link_0" length="0.04" radius="0.01"
+              origin_xyz="0.045 0 0.02"
+              origin_rpy="0 0 0"
+              color_name = "green"
+              color = "0 1 0 1"
+              mass = "${m_0}"/>
+
+
+  <xacro:arm_joint joint_name="joint_0" parent="arm_base" child = "link_0"
+               type = "revolute"
+               origin_xyz = "0 0 0.02"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 0 1"
+               axis_rpy = "0 0 0"
+	       lower_limit = "-1.57"
+               upper_limit = "1.57"/>
+
+
+
+  <xacro:arm_link link_name="link_1" length="0.115" radius="0.014"
+              origin_xyz="0 0 0.05525"
+              origin_rpy="0 0 0"
+              color_name = "red"
+              color = "1 0 0 1"
+              mass = "${m_1}"/>
+
+
+  <xacro:arm_joint joint_name="joint_1" parent="link_0" child = "link_1"
+               type = "revolute"
+               origin_xyz = "0.045 0 0.04"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 1 0"
+               axis_rpy = "0 0 0"
+	       lower_limit = "-1.57"
+               upper_limit = "2.35"/>
+
+
+  <xacro:arm_link link_name="link_2" length="0.142" radius="0.01"
+              origin_xyz="0 0 0.071"
+              origin_rpy="0 0 0"
+              color_name = "green"
+              color = "0 0 1 1"
+              mass = "${m_2}"/>
+
+
+  <xacro:arm_joint joint_name="joint_2" parent="link_1" child = "link_2"
+               type = "revolute"
+               origin_xyz = "-0.02 0 0.115"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 1 0"
+               axis_rpy = "0 0 0"
+               lower_limit = "0.0"
+               upper_limit = "2.61"/>
+
+
+  <xacro:arm_link link_name="link_3" length="0.02" radius="0.01"
+              origin_xyz="0 0 0.01"
+              origin_rpy="0 0 0"
+              color_name = "red"
+              color = "1 0 1 1"
+              mass = "${m_3}"/>
+
+
+  <xacro:arm_joint joint_name="joint_3" parent="link_2" child = "link_3"
+               type = "revolute"
+               origin_xyz = "0.0 0 0.142"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 0 1"
+               axis_rpy = "0 0 0"
+	       lower_limit = "-1.57"
+               upper_limit = "1.57"/>
+
+  <xacro:arm_link link_name="link_4" length="0.026" radius="0.007"
+              origin_xyz="0 0 0.013"
+              origin_rpy="0 0 0"
+              color_name = "blue"
+              color = "0 0 1 1"
+              mass = "${m_4}"/>
+
+  <!-- y was 0.0045 -->
+  <xacro:arm_joint joint_name="joint_4" parent="link_3" child = "link_4"
+               type = "revolute"
+               origin_xyz = "0.0 0.0 0.02"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 1 0"
+               axis_rpy = "0 0 0"
+	       lower_limit = "-1.57"
+               upper_limit = "1.57"/>
+
+
+  <xacro:arm_link link_name="link_5" length="0.006" radius="0.004"
+              origin_xyz="0 0 0.003"
+              origin_rpy="0 0 0"
+              color_name = "green"
+              color = "0 1 0 1"
+              mass = "${m_5}"/>
+
+
+  <xacro:arm_joint joint_name="joint_5" parent="link_4" child = "link_5"
+               type = "revolute"
+               origin_xyz = "0 0 0.026"
+               origin_rpy = "0 0 0"
+               axis_xyz = "0 0 1"
+               axis_rpy = "0 0 0"
+	       lower_limit = "-1.57"
+               upper_limit = "1.57"/>
+</xacro:macro>
+
+
+
+
+</robot>
+
