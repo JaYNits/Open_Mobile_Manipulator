@@ -1,10 +1,10 @@
 footprint: [[-0.15, -0.15], [-0.15, 0.15], [0.2, 0.15], [0.2, -0.15]]
 #footprint: [[-0.175, -0.175], [-0.175, 0.175], [0.175, 0.175], [0.175, -0.175]]
 footprint_padding: 0.02
-#map_type: costmap
+map_type: costmap
 
-obstacle_range: 3
-raytrace_range: 3.5
+obstacle_range: 5
+raytrace_range: 5.5
 
 transform_tolerance: 0.3
 
@@ -25,5 +25,5 @@ obstacles_laser:
 inflation:
     enabled: true
     inflation_radius: 0.25
-    cost_scaling_factor: 10
+    cost_scaling_factor: 2.58
 
