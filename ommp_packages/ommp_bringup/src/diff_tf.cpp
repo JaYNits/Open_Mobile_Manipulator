@@ -117,7 +117,7 @@ void Odometry_calc::init_variables()
 
 	ticks_meter = 26748.21;
 
-	base_width = 0.45;
+	base_width = 0.4;
 
 	
 	

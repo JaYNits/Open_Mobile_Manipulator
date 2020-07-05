@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
  
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -15,8 +16,8 @@
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
     
     <remap from="scan" to="/scan" />
-    <remap from="odom" to="odom" />
-    <remap from="cmd_vel" to="/cmd_vel" />
+    <remap from="odom" to="/ommp_velocity_controller/odom" />
+    <remap from="cmd_vel" to="/ommp_velocity_controller/cmd_vel" />
   </node>
 
 </launch>

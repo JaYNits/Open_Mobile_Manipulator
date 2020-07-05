@@ -22,20 +22,20 @@
 
 
   <!-- Start the LIDAR driver -->
-  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
+  <!--node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
     <rosparam file="$(find ommp_bringup)/config/start/ydlidar_params.yaml" command="load" />
-  </node>
+  </node-->
 
   
 
   <!-- Transforms Joint_states to appropiate servo commmands for rosserial -->
   <!-- Arm is a clone of joint_States - perfect execution -->
-  <node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
-  output="screen"/>
+  <!--node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
+  output="screen"/-->
   
   <!-- Load the PCA9685 Driver -->
-  <node name="PCA9685_driver" pkg="pwm_pca9685" type="pca9685_node" respawn="false" 
-  output="screen"/>
+  <!--node name="PCA9685_driver" pkg="pwm_pca9685" type="pca9685_node" respawn="false" 
+  output="screen"/-->
 
 
   
@@ -45,13 +45,13 @@
   </node>
 
   <!-- moveit -->
-  <include file="$(find moveit_interface)/launch/moveit.launch"/>
+  <!--include file="$(find moveit_interface)/launch/moveit.launch"/>
   <node name="set_start_arm_pos" pkg="moveit_interface" type="set_start_pos.py" respawn="false" 
-  output="screen"/>
+  output="screen"/-->
 
   <!-- camera relay-->
-  <node name="Camera_Relay" pkg="ommp_bringup" type="Camera_Relay" respawn="false" 
-  output="screen"/>
+  <!--node name="Camera_Relay" pkg="ommp_bringup" type="Camera_Relay" respawn="false" 
+  output="screen"/-->
 
   <!-- Transforms cmd_vel to appropiate wheel velocity target for rosserial-pid -->
   <!--node name="Cmd_Vel_to_Arduino" pkg="ommp_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 

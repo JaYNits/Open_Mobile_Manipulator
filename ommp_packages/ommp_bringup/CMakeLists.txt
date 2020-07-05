@@ -2,22 +2,14 @@ cmake_minimum_required(VERSION 2.8.3)
 project(ommp_bringup)
 
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
+
   geometry_msgs
-  move_base_msgs
-  nav_msgs
   robot_state_publisher
   roscpp
   rospy
   std_msgs
   tf
-  control_msgs
-  sensor_msgs
-  rtabmap_ros
-  amcl
-  map_server
-  move_base
-  robot_localization
+
 
 
 

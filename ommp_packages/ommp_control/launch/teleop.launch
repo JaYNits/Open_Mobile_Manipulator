@@ -2,7 +2,7 @@
 <launch>
 
   <node name="teleop" pkg="ommp_control" type="teleop" output="screen">
-     <remap from="teleop/cmd_vel" to="/cmd_vel"/>
+     <remap from="teleop/cmd_vel" to="ommp_velocity_controller/cmd_vel"/>
   </node>
 
   <!--node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server">

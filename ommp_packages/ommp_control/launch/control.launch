@@ -6,11 +6,11 @@
   <rosparam file="$(find ommp_control)/config/arm_control.yaml" command="load"/>
   <rosparam file="$(find ommp_control)/config/gripper_position_control.yaml" command="load"/>
   <rosparam file="$(find ommp_control)/config/kinect_control_real.yaml" command="load"/>
-  <!--rosparam file="$(find ommp_control)/config/diff_control.yaml" command="load"/-->
+  <rosparam file="$(find ommp_control)/config/diff_control.yaml" command="load"/>
 
   <!-- launch the controller manager for ros control -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="joint_state_controller arm_controller gripper_controller kinect_controller"/>
+    output="screen" args="joint_state_controller arm_controller ommp_velocity_controller gripper_controller kinect_controller"/>
   <!--ommp_velocity_controller -->
   
 

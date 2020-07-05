@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <!-- Transforms cmd_vel to appropiate wheel velocity target for rosserial-pid -->
+  <node name="Cmd_Vel_to_Arduino" pkg="ommp_bringup" type="Cmd_Vel_to_Arduino" respawn="false" 
+  output="screen"/>
+
+  <!-- Start rosserial Arduino node -->
+  <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+      <rosparam file="$(find ommp_bringup)/config/start/serial_params.yaml" command="load" />
+  </node>
+
+  <!-- Teleop -->
+  <node name="teleop" pkg="ommp_control" type="teleop" output="screen">
+     <!--remap from="teleop/cmd_vel" to="/ommp_velocity_controller/cmd_vel"/-->
+     <remap from="teleop/cmd_vel" to="/cmd_vel"/>
+  </node>
+
+</launch>
