@@ -232,7 +232,7 @@ Lastly on the real robot we use the Publisher and Subscriber of the Hardware Int
 
 **See in the ommp_control/config/hardware_interface.yaml how to configure the hardware Interface , I have noticed that with echo joint_states the order of the joints is alphabetically, and in the config you should place them in the same order.**
 
-###PCA9685 Driver
+### PCA9685 Driver
 
 **This is a [**PCA9685 ros driver**](https://discourse.ros.org/t/new-pca9685-driver-for-ros/8299) that you can use directly with ROS and Jetson Nano to avoid the Arduino middleware developed by dheera, i have included this driver in the extra packages at least in the jetson branch. Make sure you have the I2C in the usergroup see the docs. Furthermore i think it has a small bug that if you publish the same command it will deactivate the servos, so if the joint_states doesn't change i do a +- 1 trick to keep this from happening**
 
