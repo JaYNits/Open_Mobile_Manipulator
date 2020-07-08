@@ -1,26 +1,28 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 2.8.3)
 project(ommp_hardware_interface)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+# C++ 11
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  control_msgs
-  control_toolbox
-  controller_manager
+  cmake_modules
   hardware_interface
-  joint_limits_interface
+  controller_manager
   roscpp
-  rosparam_shortcuts
-  sensor_msgs
-  std_msgs
+  control_msgs
   trajectory_msgs
-  transmission_interface
+  actionlib
   urdf
+  joint_limits_interface
+  transmission_interface
+  control_toolbox
+  std_msgs
+  sensor_msgs
+  rosparam_shortcuts
 )
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+find_package(Gflags REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -41,54 +43,121 @@ catkin_package(
     std_msgs
     sensor_msgs
     rosparam_shortcuts
+  LIBRARIES
+    generic_hw_control_loop
+    generic_hw_interface
+    sim_hw_interface
 )
-
 
 ###########
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   include/
   ${catkin_INCLUDE_DIRS}
+  ${Gflags_INCLUDE_DIRS}
 )
 
+# Control loop
+add_library(generic_hw_control_loop src/generic_hw_control_loop.cpp)
+target_link_libraries(generic_hw_control_loop
+  ${catkin_LIBRARIES}
+)
 
-add_library(ommp_hardware_interface src/ommp_hardware_interface.cpp)
+# Generic Hardware Interface
+add_library(generic_hw_interface
+  src/generic_hw_interface.cpp
+)
+target_link_libraries(generic_hw_interface
+  ${catkin_LIBRARIES}
+)
 
-target_link_libraries(ommp_hardware_interface
-  ${catkin_LIBRARIES})
-  
-add_executable(ommp_hardware_interface_node src/ommp_hardware_interface_node.cpp)
-add_dependencies(ommp_hardware_interface_node ommp_hardware_interface)
+# Simulation Hardware Interface
+add_library(sim_hw_interface
+  src/sim_hw_interface.cpp
+)
+target_link_libraries(sim_hw_interface
+  generic_hw_interface
+  ${catkin_LIBRARIES}
+)
 
-target_link_libraries(ommp_hardware_interface_node
-	ommp_hardware_interface
-  ${catkin_LIBRARIES})
-  
-#############
-## Install ##
-#############
+# Main control executable
+add_executable(${PROJECT_NAME}_sim_hw_main src/sim_hw_main.cpp)
+set_target_properties(${PROJECT_NAME}_sim_hw_main PROPERTIES OUTPUT_NAME sim_hw_main PREFIX "")
+target_link_libraries(${PROJECT_NAME}_sim_hw_main
+  sim_hw_interface
+  generic_hw_control_loop
+  ${catkin_LIBRARIES}
+)
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-  PATTERN ".svn" EXCLUDE)
+# Test trajectory generator node
+add_executable(${PROJECT_NAME}_test_trajectory src/tools/test_trajectory.cpp)
+set_target_properties(${PROJECT_NAME}_test_trajectory PROPERTIES OUTPUT_NAME test_trajectory PREFIX "")
+target_link_libraries(${PROJECT_NAME}_test_trajectory
+  ${catkin_LIBRARIES}
+)
 
-install(TARGETS ommp_hardware_interface_node ommp_hardware_interface
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+## TOOLS ------------------------------------------------------
+
+# Tool for analyzing controller performance
+add_library(controller_to_csv src/tools/controller_to_csv.cpp)
+target_link_libraries(controller_to_csv
+  ${catkin_LIBRARIES}
+)
+add_executable(${PROJECT_NAME}_controller_to_csv_main src/tools/controller_to_csv_main.cpp)
+set_target_properties(${PROJECT_NAME}_controller_to_csv_main PROPERTIES OUTPUT_NAME controller_to_csv_main PREFIX "")
+target_link_libraries(${PROJECT_NAME}_controller_to_csv_main
+  controller_to_csv
+  ${Gflags_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+# Tool for analyzing controller performance
+add_library(csv_to_controller src/tools/csv_to_controller.cpp)
+target_link_libraries(csv_to_controller
+  ${catkin_LIBRARIES}
+)
+add_executable(${PROJECT_NAME}_csv_to_controller_main src/tools/csv_to_controller_main.cpp)
+set_target_properties(${PROJECT_NAME}_csv_to_controller_main PROPERTIES OUTPUT_NAME csv_to_controller_main PREFIX "")
+target_link_libraries(${PROJECT_NAME}_csv_to_controller_main
+  csv_to_controller
+  ${Gflags_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+# Tool for controlling a robot from keyboard
+add_executable(${PROJECT_NAME}_keyboard_teleop src/tools/keyboard_teleop.cpp)
+set_target_properties(${PROJECT_NAME}_keyboard_teleop PROPERTIES OUTPUT_NAME keyboard_teleop PREFIX "")
+target_link_libraries(${PROJECT_NAME}_keyboard_teleop
+  ${catkin_LIBRARIES}
+)
+
+add_subdirectory(ommp_control)
+
+## Install ------------------------------------------------------------
+
+# Install libraries
+install(TARGETS
+    generic_hw_control_loop
+    generic_hw_interface
+    sim_hw_interface
+    controller_to_csv
+    csv_to_controller
+  LIBRARY DESTINATION
+    ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
+
+# Install executables
+install(TARGETS
+    ${PROJECT_NAME}_sim_hw_main
+    ${PROJECT_NAME}_test_trajectory
+    ${PROJECT_NAME}_controller_to_csv_main
+    ${PROJECT_NAME}_csv_to_controller_main
+    ${PROJECT_NAME}_keyboard_teleop
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY
-  launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
-
-install(DIRECTORY
-  config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+# Install header files
+install(DIRECTORY include/${PROJECT_NAME}/   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})

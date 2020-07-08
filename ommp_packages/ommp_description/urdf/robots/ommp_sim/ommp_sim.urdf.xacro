@@ -6,7 +6,7 @@
   <!--INCLUDE MACROS-->
 
   <!-- Common design Properties-->
-  <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/common_properties.urdf.xacro" />
+  <xacro:include filename="$(find ommp_description)/urdf/robots/ommp_sim/configuration.urdf.xacro" />
 
   <!-- Include Sensors macros -->
   <!---->
@@ -31,11 +31,11 @@
   <!-- Incude Inertia macros -->
   <xacro:include filename="$(find ommp_description)/urdf/macros/inertia_macros.urdf.xacro" />
 
-  <!-- Include costum Arm -->
-  <xacro:include filename="$(find ommp_description)/urdf/arms/costum_arm/costum_arm.urdf.xacro" />
+  <!-- Include Generic Arm -->
+  <xacro:include filename="$(find ommp_description)/urdf/arms/generic_arm/generic_arm.urdf.xacro" />
   
-  <!-- Include costum Gripper -->
-  <xacro:include filename="$(find ommp_description)/urdf/grippers/costum_gripper/costum_gripper.urdf.xacro" />
+  <!-- Include Generic Gripper -->
+  <xacro:include filename="$(find ommp_description)/urdf/grippers/generic_gripper/generic_gripper.urdf.xacro" />
 
 
   
@@ -78,10 +78,25 @@
   <xacro:imu_sensor parent="chassis" />
 
 
+  <!-- Instanciate the Generic Arm macros -->
+  
   <!-- connect arm -->
-  <xacro:costum_arm parent="${arm_parent}" />
+  <xacro:generic_arm 
+    prefix="" 
+    parent="${generic_arm_parent}" 
+    transmission_hw_interface="${transmission_hw_interface}" 
+    safety_limits="${safety_limits}"
+    safety_pos_margin="${safety_pos_margin}"
+    safety_k_position="${safety_k_position}"/>
+
   <!-- connect gripper-->
-  <xacro:costum_ee parent="${ee_parent}" />
+  <xacro:generic_gripper 
+    prefix="" 
+    parent="${generic_gripper_parent}" 
+    transmission_hw_interface="${transmission_hw_interface}" 
+    safety_limits="${safety_limits}"
+    safety_pos_margin="${safety_pos_margin}"
+    safety_k_position="${safety_k_position}"/>
 
 
 </robot>

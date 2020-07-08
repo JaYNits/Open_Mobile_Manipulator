@@ -14,7 +14,7 @@
   </include>
 
   <!-- start hardware interface node for the ommp -->
-  <include file="$(find ommp_hardware_interface)/launch/ommp_hardware_interface.launch"/>
+  <include file="$(find ommp_control)/launch/hardware_interface.launch"/>
 
   <!-- Load the Robot Controllers -->
   <include file="$(find ommp_control)/launch/control.launch"/>
@@ -30,7 +30,7 @@
 
   <!-- Transforms Joint_states to appropiate servo commmands for rosserial -->
   <!-- Arm is a clone of joint_States - perfect execution -->
-  <node name="Pub_to_Arduino_Class" pkg="ommp_bringup" type="Pub_to_Arduino_Class" respawn="false" 
+  <node name="Pub_to_PCA9685_Driver" pkg="ommp_bringup" type="Pub_to_PCA9685_Driver" respawn="false" 
   output="screen"/>
   
   <!-- Load the PCA9685 Driver -->

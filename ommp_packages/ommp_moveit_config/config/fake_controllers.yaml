@@ -1,13 +1,13 @@
 controller_list:
   - name: fake_arm_controller
     joints:
-      - joint_0
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
   - name: fake_gripper_controller
     joints:
-      - joint_finger1
-      - joint_finger2
+      - finger1_joint
+      - finger2_joint

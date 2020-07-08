@@ -1,6 +1,0 @@
-<launch>
-    <rosparam file="$(find ommp_hardware_interface)/config/hardware.yaml" command="load"/>
-    <rosparam file="$(find ommp_hardware_interface)/config/joint_limits.yaml" command="load"/>
-    <node name="ommp_hardware_interface" pkg="ommp_hardware_interface" type="ommp_hardware_interface_node" output="screen"/>
-
-</launch>

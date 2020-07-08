@@ -147,7 +147,7 @@ arm:
     - SPARS
     - SPARStwo
 gripper:
-  default_planner_config: ""
+  default_planner_config: None
   planner_configs:
     - SBL
     - EST
@@ -172,5 +172,5 @@ gripper:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  projection_evaluator: joints(joint_finger1,joint_finger2)
+  projection_evaluator: joints(finger1_joint,finger2_joint)
   longest_valid_segment_fraction: 0.005
