@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-  <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
-    <rosparam file="$(find lynxbot_bringup)/config/rf2o_laser_odometry_params.yaml" command="load" />
-  </node>
-
-</launch>

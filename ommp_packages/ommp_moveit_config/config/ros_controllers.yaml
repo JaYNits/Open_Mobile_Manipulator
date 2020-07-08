@@ -13,14 +13,14 @@ hardware_interface:
     - back_right_wheel_joint
     - front_left_wheel_joint
     - front_right_wheel_joint
-    - joint_0
-    - joint_1
-    - joint_2
-    - joint_3
-    - joint_4
-    - joint_5
-    - joint_finger1
-    - joint_finger2
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - finger1_joint
+    - finger2_joint
     - camera_rgb_joint
   sim_control_mode: 1  # 0: position, 1: velocity
 # Publish all joint states
@@ -34,16 +34,16 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
-      - joint_0
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
   - name: gripper_controller
     action_ns: follow_joint_trajectory
     default: True
     type: FollowJointTrajectory
     joints:
-      - joint_finger1
-      - joint_finger2
+      - finger1_joint
+      - finger2_joint
