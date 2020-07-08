@@ -32,8 +32,8 @@ public:
   explicit MyPickPlace(ros::NodeHandle nh);
   ~MyPickPlace();
 
-  bool Routine(moveit_interface::PickPlace::Request &req,
-                      moveit_interface::PickPlace::Response &res);
+  bool Routine(ommp_moveit_interface::PickPlace::Request &req,
+                      ommp_moveit_interface::PickPlace::Response &res);
 
 private:
   ros::NodeHandle nh_;
