@@ -1,4 +1,4 @@
-#include<moveit_interface/pick_place_server.h>
+#include<ommp_moveit_interface/pick_place_server.h>
 
 MyPickPlace::MyPickPlace(ros::NodeHandle nh)
   : nh_(nh),
@@ -36,8 +36,8 @@ MyPickPlace::MyPickPlace(ros::NodeHandle nh)
 
 }
 
-bool MyPickPlace::Routine(moveit_interface::PickPlace::Request &req,
-                      moveit_interface::PickPlace::Response &res)
+bool MyPickPlace::Routine(ommp_moveit_interface::PickPlace::Request &req,
+                      ommp_moveit_interface::PickPlace::Response &res)
 {
 
   // test
