@@ -210,7 +210,7 @@ It will output a model.sav file containing the classifier.
 
 Then you will see your object recognized with labels on RVIZ and associating TF's
 
-##Ros_control Hardware Interface
+## Ros_control Hardware Interface
 
 I used this repo of  [**PickNikRobotics**](https://github.com/PickNikRobotics/ros_control_boilerplate) , I should have forked but this is complicated :)
 
