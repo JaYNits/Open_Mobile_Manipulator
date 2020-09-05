@@ -246,11 +246,13 @@ Lastly on the real robot we use the Publisher and Subscriber of the Hardware Int
 
 **rosdep install --from-paths src --ignore-src -r -y** (install depedencies)
 
-**catkin_make**
+**catkin_make sometimes doesn't work so build with catkin build**
+**install it from [**install catkin tools**](https://catkin-tools.readthedocs.io/en/latest/installing.html) 
+
+**catkin build -DCMAKE_EXPORT_COMPILE_COMMANDS=1**
 
 **Now theoritically it should be easy to compile the project in ROS Melodic**
 
-**!!!! If you have installations problems try to build frontier_exploration (sometimes has problems) in isolation e.g catkin_make - - pkg frontier_exploration. Try the same with any offending package**
 
 **P.S In the extra packages i have put some packages developed either by me or by other e.g m-explore (greedy) and frontier exploration. I know that is not the best practice to include packages like this because you will not recieve any updates e.t.c but at least it is easier to install and you will have a working version of this packages compatible with my repo P.S (I also had to remove their gits sorry :) )**
 
